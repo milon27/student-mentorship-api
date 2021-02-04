@@ -5,9 +5,9 @@
  * MySQL
 
 >> How to use
-
+___
 * Put this comment on file where you will work
-```
+```javascript
 /**
  * @design by your_git_username
  */
@@ -25,6 +25,7 @@
 
 
 >> Folder Structure
+___
  * routers
     * all routers will go there
     * middleware
@@ -44,6 +45,7 @@
 
 
 >> developed routes
+___
  * CRUD Operations (dataRouter.js)
     * Get,Insert,Update,Delete,Pagination
     * base url: http://localhost:2727/data/.....
