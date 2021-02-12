@@ -18,7 +18,7 @@ const DataController = {
 
         new DataModel().getAll(table, field, (err, results) => {
             if (err) {
-                let response = new Response(500, err.message, err);
+                let response = new Response(true, err.message, err);
                 res.send(response);
             } else {
                 if (results && results.length > 0) {
@@ -46,7 +46,7 @@ const DataController = {
         //error, message, data: response
         new DataModel().getPaginateList(page, table, field, (err, results) => {
             if (err) {
-                let response = new Response(500, err.message, err);
+                let response = new Response(true, err.message, err);
                 res.send(response);
             } else {
                 if (results && results.length > 0) {

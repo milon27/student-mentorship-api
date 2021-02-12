@@ -20,11 +20,18 @@ app.use(cors());
  */
 app.use('/data', require('./routers/dataRouter'));
 
+/**
+ * @description use for database create and database table create
+ */
+app.use('/db', require('./routers/dbRouter'))
+
 
 /**
- * @description ....add yours
- * @author ....add yours
+ * @description use for support chat system
+ * @author milon27
  */
+app.use('/support', require('./routers/supportRouter'))
+
 
 
 const port = process.env.PORT || 2828;

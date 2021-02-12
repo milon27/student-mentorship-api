@@ -5,5 +5,9 @@ const Define = {
     SECONDS: "seconds",
     ADMIN: "ADMIN",
     USER: "USER",
+    //support define list
+    UNSOLVED: "UNSOLVED",
+    SOLVED: "SOLVED",
+    PROCESSING: "PROCESSING",
 }
 module.exports = Define

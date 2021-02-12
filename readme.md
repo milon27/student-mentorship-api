@@ -12,12 +12,14 @@ ___
  * @design by your_git_username
  */
 ```
-* Use following commad to clone the repo.
+* Use following commad & setp to clone the repo.
 
 ```
-    $ git clone https://github.com/milon27/student-mentorship-api
+    $ create a folder student-mentorship-api
+    $ git clone https://github.com/milon27/student-mentorship-api .
     $ git checkout -b features_a
     $ npm install
+    $ create .env file (use .env.sample for reference)
     $ npm run dev (run by nodemon port 2727)
     $ npm start (run by node port 2727)
     
