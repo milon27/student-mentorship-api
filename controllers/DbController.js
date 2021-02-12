@@ -14,7 +14,7 @@ const DbController = {
             }
         })
     },
-
+    //support start
     createSupportChatSummeryTable: (req, res) => {
         new DbModel().create_support_chat_summary_table((err, results) => {
             if (err) {
@@ -37,7 +37,7 @@ const DbController = {
                 res.status(200).send(response);
             }
         })
-    },
+    },//support end
 
 
 }

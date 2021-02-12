@@ -54,6 +54,8 @@ ___
 
  * Auth Operation (authRouter.js)
     * will be implimented..
+ * DB Operation (dbRouter.js)
+    * create tables & db
  * more coming soon
 
 
