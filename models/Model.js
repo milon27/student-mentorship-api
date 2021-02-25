@@ -37,17 +37,17 @@ class Model {
 
     //common operation
     //insert into a specific table
-    addDate = (table, obj, callback) => {
+    addData = (table, obj, callback) => {
         let sql = `INSERT INTO ${table} SET ?`;
         this.db.query(sql, obj, callback);
     }
     //update a specific row on a table
-    updateDate = (table, obj, callback) => {
+    updateData = (table, obj, callback) => {
         let sql = `UPDATE ${table} SET ? WHERE id = ?`;
         this.db.query(sql, [obj, obj.id], callback);
     }
     //delete a specific row on a table
-    deleteDate = (table, id, callback) => {
+    deleteData = (table, id, callback) => {
         let sql = `DELETE FROM ${table} WHERE id = ?`;
         this.db.query(sql, id, callback);
     }

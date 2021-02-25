@@ -1,5 +1,6 @@
 /**
  * @design by milon27
+ * @sample controller
  */
 
 const DataModel = require("../models/DataModel")

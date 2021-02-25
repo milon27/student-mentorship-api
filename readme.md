@@ -2,9 +2,11 @@
 
 >> Using Technology
  * NODE JS
+ * Express JS
  * MySQL
+ * JWT+Cookie+bcryptJS(Auth)
 
->> How to use
+>> How to contribute
 ___
 * Put this comment on file where you will work
 ```javascript
@@ -12,6 +14,8 @@ ___
  * @design by your_git_username
  */
 ```
+
+>> How to use
 * Use following commad & setp to clone the repo.
 
 ```

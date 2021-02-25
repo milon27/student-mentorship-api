@@ -9,17 +9,23 @@ const router = express.Router()
  */
 router.get('/create-db', DbController.createDb)
 /**
- * @description 1. create the support_chat_summary table
- * @endpoint http://localhost:2727/db/create-table/support_chat_summary
- * @example http://localhost:2727/db/create-table/support_chat_summary
+ * @description 1. create the ticket table
+ * @endpoint http://localhost:2727/db/create-table/ticket
+ * @example http://localhost:2727/db/create-table/ticket
  */
-router.get('/create-table/support_chat_summary', DbController.createSupportChatSummeryTable)
+router.get('/create-table/ticket', DbController.createTicketTable)
 /**
- * @description 1. create the support_chat table
- * @endpoint http://localhost:2727/db/create-table/support_chat
- * @example http://localhost:2727/db/create-table/support_chat
+ * @description 1. create the ticket_chat table
+ * @endpoint http://localhost:2727/db/create-table/ticket_chat
+ * @example http://localhost:2727/db/create-table/ticket_chat
  */
-router.get('/create-table/support_chat', DbController.createSupportChatTable)
+router.get('/create-table/ticket_chat', DbController.createTicketChatTable)
 
+/**
+ * @description 1. create the ticket_chat table
+ * @endpoint http://localhost:2727/db/create-table/users
+ * @example http://localhost:2727/db/create-table/users
+ */
+router.get('/create-table/users', DbController.createUserTable)
 
 module.exports = router

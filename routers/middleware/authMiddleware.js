@@ -2,22 +2,22 @@
  * @design by milon27
  */
 
-const jwt = require('jsonwebtoken');
-const authMiddleware = (req, res, next) => {
-    const authHead = req.headers['authorization'];
-    const token = authHead && authHead.split(" ")[1];
-    if (token == null) {
-        return res.sendStatus(401);
-    } else {
-        jwt.verify(token, process.env.ACCESS_SECRET, (err, user) => {
-            if (err) {
-                return res.sendStatus(403);
-            } else {
-                req.user = user;
-                next();
-            }
-        });
+const Response = require('../../models/Response');
+const Helper = require('../../utils/Helper');
+const auth_cookie = (req, res, next) => {
+    try {
+        const token = req.cookies.token
+        if (!token) {
+            throw new Error("Unauthorized Access")
+        }
+        //token validation
+        const email = Helper.verifyJWTtoken(token)
+        //set user email in request
+        req.email = email
+        next()
+    } catch (e) {
+        res.status(401).json(new Response(true, e.message, e))
     }
 }
 
-module.exports = authMiddleware;
+module.exports = auth_cookie;

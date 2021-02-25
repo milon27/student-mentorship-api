@@ -15,25 +15,38 @@ const DbController = {
         })
     },
     //support start
-    createSupportChatSummeryTable: (req, res) => {
-        new DbModel().create_support_chat_summary_table((err, results) => {
+    createTicketTable: (req, res) => {
+        new DbModel().create_ticket_table((err, results) => {
             if (err) {
                 let response = new Response(true, err.message, err);
                 res.send(response);
             } else {
-                let response = new Response(false, " support_chat_summary table Created Successfully", results);
+                let response = new Response(false, " ticket table Created Successfully", results);
                 res.status(200).send(response);
             }
         })
     },
 
-    createSupportChatTable: (req, res) => {
-        new DbModel().create_support_chat_table((err, results) => {
+    createTicketChatTable: (req, res) => {
+        new DbModel().create_ticket_chat_table((err, results) => {
             if (err) {
                 let response = new Response(true, err.message, err);
                 res.send(response);
             } else {
-                let response = new Response(false, " support_chat table Created Successfully", results);
+                let response = new Response(false, " ticket_chat table Created Successfully", results);
+                res.status(200).send(response);
+            }
+        })
+    },//support end
+
+    //user start
+    createUserTable: (req, res) => {
+        new DbModel().create_user_table((err, results) => {
+            if (err) {
+                let response = new Response(true, err.message, err);
+                res.send(response);
+            } else {
+                let response = new Response(false, " users table Created Successfully", results);
                 res.status(200).send(response);
             }
         })

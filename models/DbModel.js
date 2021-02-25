@@ -1,3 +1,4 @@
+const DB_Define = require("../utils/DB_Define");
 const Define = require("../utils/Define");
 const Model = require("./Model");
 
@@ -9,27 +10,44 @@ class DbModel extends Model {
         this.db.query(sql, callback);
     }
 
-    //create support_chat_summary
-    create_support_chat_summary_table(callback) {
-        const unsolved = Define.UNSOLVED
-        let sql = `CREATE TABLE support_chat_summary(
+    //create TICKET_TABLE
+    create_ticket_table(callback) {
+        const unsolved = Define.UNSOLVED_TICKET
+        const table_name = DB_Define.TICKET_TABLE
+        let sql = `CREATE TABLE ${table_name}(
             id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-            student_id varchar(200) UNIQUE,
-            subject varchar(200),
-            chat_state varchar(100) DEFAULT "${unsolved}",
+            student_id varchar(200),
+            ticket_title varchar(200),
+            assigned_user_id varchar(200),
+            ticket_state varchar(100) DEFAULT "${unsolved}",
+            reschedule_date TIMESTAMP  DEFAULT CURRENT_TIMESTAMP,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         );`;
         this.db.query(sql, callback);
     }
 
-    //create support_chat
-    create_support_chat_table(callback) {
-
-        let sql = `CREATE TABLE support_chat(
+    //create ticket_chat
+    create_ticket_chat_table(callback) {
+        const table_name = DB_Define.TICKET_CHAT_TABLE
+        let sql = `CREATE TABLE ${table_name}(
             id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-            student_id varchar(200),
+            ticket_id varchar(200),
             message varchar(200),
             sender_id varchar(200),
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        );`;
+
+        this.db.query(sql, callback);
+    }
+
+    //create sample user table 
+    create_user_table(callback) {
+        const table_name = "users"
+        let sql = `CREATE TABLE ${table_name}(
+            id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+            email varchar(200),
+            name varchar(200),
+            pass varchar(200),
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         );`;
 

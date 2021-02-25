@@ -1,6 +1,8 @@
 const DB_Define = {
-    //table names
-    SUPPORT_CHAT_SUMMARY_TABLE: "support_chat_summary",
-    SUPPORT_CHAT_TABLE: "support_chat",
+    //auth
+    USERS_TABLE: "users",
+    //support
+    TICKET_TABLE: "ticket",
+    TICKET_CHAT_TABLE: "ticket_chat",
 }
 module.exports = DB_Define
