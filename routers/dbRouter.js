@@ -28,4 +28,20 @@ router.get('/create-table/ticket_chat', DbController.createTicketChatTable)
  */
 router.get('/create-table/users', DbController.createUserTable)
 
+
+/**
+ * @description 1. create the student
+ * @endpoint http://localhost:2727/db/create-table/students'
+ * @example http://localhost:2727/db/create-table/students'
+ */
+router.get('/create-table/students', DbController.createStudentTable)
+
+
+/**
+ * @description 1. create the ao
+ * @endpoint http://localhost:2727/db/create-table/ao'
+ * @example http://localhost:2727/db/create-table/ao'
+ */
+router.get('/create-table/ao', DbController.createAoTable)
+
 module.exports = router
