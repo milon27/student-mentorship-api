@@ -1,5 +1,5 @@
 const DB_Define = require("../utils/DB_Define");
-const Db_Define = require("../utils/Define");
+const Define = require("../utils/Define");
 const Model = require("./Model");
 
 class DbModel extends Model {
