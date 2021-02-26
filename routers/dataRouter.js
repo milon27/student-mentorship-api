@@ -7,7 +7,6 @@ const express = require('express')
 const router = express.Router()
 const DataController = require('../controllers/DataController')
 
-
 /**
  * @description 1. get a all row/document from a table
  * @param table [from we get all row/document]

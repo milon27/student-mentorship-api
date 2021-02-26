@@ -12,14 +12,16 @@ class DbModel extends Model {
 
     //create TICKET_TABLE
     create_ticket_table(callback) {
-        const unsolved = Define.UNSOLVED_TICKET
+        const pending = Define.PENDING_TICKET
         const table_name = DB_Define.TICKET_TABLE
         let sql = `CREATE TABLE ${table_name}(
             id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
             student_id varchar(200),
             ticket_title varchar(200),
-            assigned_user_id varchar(200),
-            ticket_state varchar(100) DEFAULT "${unsolved}",
+            ticket_dept varchar(200),
+            assigned_user_id varchar(200) DEFAULT "${Define.NOT_SET}",
+            ticket_state varchar(100) DEFAULT "${pending}",
+            reschedule_reason varchar(200) DEFAULT "${Define.NOT_SET}",
             reschedule_date TIMESTAMP  DEFAULT CURRENT_TIMESTAMP,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         );`;
@@ -33,6 +35,7 @@ class DbModel extends Model {
             id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
             ticket_id varchar(200),
             message varchar(200),
+            img_url varchar(200) DEFAULT "${Define.NOT_SET}",
             sender_id varchar(200),
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         );`;

@@ -2,6 +2,9 @@ const Define = {
     //user access token
     TOKEN: "token",
     TOKEN_EXPIRE_DAY: 2,
+    //pagination
+    CREATED_AT: "created_at",
+    PAGINATE_PAGE_SIZE: 5,
     //time
     DAYS: "days",
     MONTHS: "months",
@@ -10,9 +13,10 @@ const Define = {
     ADMIN: "ADMIN",
     USER: "USER",
     //support define list
-    UNSOLVED_TICKET: "unsolved",
-    SOLVED_TICKET: "solved",
-    SNOOZE_TICKET: "snooze",
-    FUTURE_TICKET: "future",
+    NOT_SET: "NOT_SET",
+    PENDING_TICKET: "pending",
+    COMPLETED_TICKET: "completed",
+    SNOOZED_TICKET: "snoozed",
+    PROCESSING_TICKET: "processing",
 }
 module.exports = Define

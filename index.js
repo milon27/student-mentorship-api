@@ -32,7 +32,7 @@ app.use('/db', require('./routers/dbRouter'))
 app.use('/auth', require('./routers/authRouter'))
 
 // @description use for support chat system @author milon27
-app.use('/support', require('./routers/supportRouter'))
+app.use('/support', require('./routers/support/supportRouter'))
 
 // @description use for all type of CRUD operation @author milon27
 app.use('/data', require('./routers/dataRouter'));
