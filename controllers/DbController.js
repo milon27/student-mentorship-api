@@ -50,7 +50,36 @@ const DbController = {
                 res.status(200).send(response);
             }
         })
-    },//support end
+    },//user end
+
+    //student start
+    createStudentTable: (req, res) => {
+        new DbModel().create_student_table((err, results) => {
+            if (err) {
+                let response = new Response(true, err.message, err);
+                res.send(response);
+            } else {
+                let response = new Response(false, " student table Created Successfully", results);
+                res.status(200).send(response);
+            }
+        })
+    },//student end
+
+    //student start
+    createAoTable: (req, res) => {
+        new DbModel().create_ao_table((err, results) => {
+            if (err) {
+                let response = new Response(true, err.message, err);
+                res.send(response);
+            } else {
+                let response = new Response(false, " ao table Created Successfully", results);
+                res.status(200).send(response);
+            }
+        })
+    },//student end
+
+  
+
 
 
 }
