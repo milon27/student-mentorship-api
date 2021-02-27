@@ -62,9 +62,9 @@ class SupportModel extends Model {
 
     //6. search ticket chat by text
     //@param {text} search by text
-    searchTicketChat(text, callback) {
-        let sql = `SELECT * FROM ?? WHERE message LIKE '%${text}%' ORDER BY ${Define.CREATED_AT} DESC;`
-        this.db.query(sql, [DB_Define.TICKET_CHAT_TABLE], callback)
+    searchTicketChat(text, t_id, callback) {
+        let sql = `SELECT * FROM ?? WHERE ticket_id=? and message LIKE '%${text}%' ORDER BY ${Define.CREATED_AT} DESC;`
+        this.db.query(sql, [DB_Define.TICKET_CHAT_TABLE, t_id], callback)
     }
 }
 

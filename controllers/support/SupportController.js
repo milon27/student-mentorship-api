@@ -133,30 +133,38 @@ const SupportController = {
     updateTicket: (req, res) => {
         try {
             const { id } = req.params//ticket id
-            const { ticket_state, reschedule_reason, reschedule_date } = req.body
-            if (!Helper.validateField(ticket_state)) {
-                throw new Error("set ticket_state")
-            }
-
+            const { ticket_state, reschedule_reason, reschedule_date, assigned_user_id } = req.body
             const ticket = {
-                id: id,
-                ticket_state
+                id: id
             }
-
-            if (ticket_state === Define.SNOOZED_TICKET) {
-                if (!Helper.validateField(ticket_state, reschedule_reason, reschedule_date)) {
-                    throw new Error("set ticket_state,reschedule_reason, reschedule_date")
+            let message = ``
+            //only for assign A/O id
+            if (assigned_user_id) {
+                ticket.assigned_user_id = assigned_user_id
+                message = `ticket id ${id} assigned to A/O user id ${assigned_user_id}`
+            } else {
+                //only for state update
+                if (!Helper.validateField(ticket_state)) {
+                    throw new Error("set ticket_state")
                 }
-                ticket.reschedule_reason = reschedule_reason
-                ticket.reschedule_date = reschedule_date
-            }
+                ticket.ticket_state = ticket_state
+
+                if (ticket_state === Define.SNOOZED_TICKET) {
+                    if (!Helper.validateField(ticket_state, reschedule_reason, reschedule_date)) {
+                        throw new Error("set ticket_state,reschedule_reason, reschedule_date")
+                    }
+                    ticket.reschedule_reason = reschedule_reason
+                    ticket.reschedule_date = reschedule_date
+                }
+                message = `ticket updated to ${ticket_state}`
+            }//end else
 
             new SupportModel().updateData(DB_Define.TICKET_TABLE, ticket, (err, results) => {
                 if (err) {
                     let response = new Response(true, err.message, err);
                     res.send(response);
                 } else {
-                    let response = new Response(false, `ticket updated to ${ticket_state}`, ticket);
+                    let response = new Response(false, message, ticket);
                     res.send(response);
                 }
             })//end db op
@@ -196,15 +204,16 @@ const SupportController = {
     },
 
     /**
-     * @param {text} =req.params//chat message
+     * @param {text,ticket_id} =req.params//chat message
      * @body {}= req.body
      * @description search by message text
      * @response {error(boolean), message(String), response([])}
      */
     searchTicketChat: (req, res) => {
         try {
+            const t_id = req.params.ticket_id //search on a specific ticket chat
             const text = req.params.text //ticket id or ticket title
-            new SupportModel().searchTicketChat(text, (err, results) => {
+            new SupportModel().searchTicketChat(text, t_id, (err, results) => {
                 if (err) {
                     let response = new Response(true, err.message, err);
                     res.send(response);

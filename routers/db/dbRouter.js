@@ -1,5 +1,5 @@
 const express = require('express')
-const DbController = require('../controllers/DbController')
+const DbController = require('../../controllers/db/DbController')
 const router = express.Router()
 
 /**
