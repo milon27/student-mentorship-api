@@ -1,6 +1,6 @@
-const DB_Define = require("../utils/DB_Define");
-const Define = require("../utils/Define");
-const Model = require("./Model");
+const DB_Define = require("../../utils/DB_Define");
+const Define = require("../../utils/Define");
+const Model = require("./../Model");
 
 class DbModel extends Model {
     //create db
@@ -92,7 +92,7 @@ class DbModel extends Model {
         this.db.query(sql, callback);
     }
 
-       
+
 }
 
 module.exports = DbModel

@@ -3,8 +3,8 @@
  * @sample controller
  */
 
-const DataModel = require("../models/DataModel")
-const Response = require('../models/Response')
+const DataModel = require("../../models/sample/DataModel")
+const Response = require('../../models/Response')
 
 const DataController = {
     /**

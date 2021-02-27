@@ -1,4 +1,9 @@
-const Model = require("./Model");
+/**
+ * @design by milon27
+ * @sample auth model
+ */
+
+const Model = require("./../Model");
 
 class AuthModel extends Model {
     getUserByEmail = async (table, email, callback) => {

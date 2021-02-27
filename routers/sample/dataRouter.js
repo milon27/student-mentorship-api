@@ -5,7 +5,7 @@
 
 const express = require('express')
 const router = express.Router()
-const DataController = require('../controllers/DataController')
+const DataController = require('../../controllers/sample/DataController')
 
 /**
  * @description 1. get a all row/document from a table

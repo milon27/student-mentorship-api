@@ -25,17 +25,19 @@ app.use(cors({
  * @routers
  */
 
-// @description use for database create and database table create
-app.use('/db', require('./routers/dbRouter'))
 
+// sample code start here
 // @description use for support chat system @author milon27
-app.use('/auth', require('./routers/authRouter'))
+app.use('/auth', require('./routers/sample/authRouter'))
+// @description use for all type of CRUD operation @author milon27
+app.use('/data', require('./routers/sample/dataRouter'));
+// sample code end here
+
+// @description use for database create and database table create
+app.use('/db', require('./routers/db/dbRouter'))
 
 // @description use for support chat system @author milon27
 app.use('/support', require('./routers/support/supportRouter'))
-
-// @description use for all type of CRUD operation @author milon27
-app.use('/data', require('./routers/dataRouter'));
 
 // @description use for  student  @author rijon1810
 app.use('/student', require('./routers/student/studentRouter'));

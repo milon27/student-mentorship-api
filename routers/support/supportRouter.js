@@ -33,7 +33,7 @@ router.post('/create-message', SupportController.create_message)
  * @param {value} (pending,completed,processing,snoozed),(17303024),(3)
  * @param {page_no} 1,2,3,4
  * @endpoint http://localhost:2727/support/get/:table/:field/:value/:page_no
- * @example for a/o=http://localhost:2727/support/get/ticket/ticket_state/unsolved/1
+ * @example for a/o=http://localhost:2727/support/get/ticket/ticket_state/pending/1
  * @example for student=http://localhost:2727/support/get/ticket/student_id/17303024/1
  * @example for all chat list=http://localhost:2727/support/get/ticket_chat/ticket_id/3/1
  */
@@ -59,13 +59,13 @@ router.put('/update-ticket/:id', SupportController.updateTicket)
  */
 router.get('/search/:text', SupportController.searchTicket)
 /**
- * @description 6.seach ticket by id or title
- * @param {text} search text
+ * @description 7.search text on a specific ticket chat
+ * @param {text,ticket_id} search text,on a specific ticket chat
  * @body {}
- * @endpoint http://localhost:2727/support/search-message/:text
- * @example http://localhost:2727/support/search-message/17303024
+ * @endpoint http://localhost:2727/support/search-message/:ticket_id/:text
+ * @example http://localhost:2727/support/search-message/2/first
  */
-router.get('/search-message/:text', SupportController.searchTicketChat)
+router.get('/search-message/:ticket_id/:text', SupportController.searchTicketChat)
 
 
 

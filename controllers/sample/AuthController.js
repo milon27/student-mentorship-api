@@ -1,12 +1,13 @@
 /**
  * @design by milon27
+ * @sample auth controller
  */
 const bcryptjs = require('bcryptjs')
-const AuthModel = require('../models/AuthModel')
-const Response = require('../models/Response')
-const DB_Define = require('../utils/DB_Define')
-const Define = require('../utils/Define')
-const Helper = require('../utils/Helper')
+const AuthModel = require('../../models/sample/AuthModel')
+const Response = require('../../models/Response')
+const DB_Define = require('../../utils/DB_Define')
+const Define = require('../../utils/Define')
+const Helper = require('../../utils/Helper')
 
 const AuthController = {
     /**

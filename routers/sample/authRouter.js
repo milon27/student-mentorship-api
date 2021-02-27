@@ -3,7 +3,7 @@
  */
 const express = require('express')
 const router = express.Router()
-const AuthController = require('../controllers/AuthController')
+const AuthController = require('../../controllers/sample/AuthController')
 
 
 /**
