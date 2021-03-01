@@ -22,9 +22,9 @@ const AoController = {
      */
     signUp: async (req, res) => {
         try {
-            const {name , phone, email,  password , photo_url} = req.body
+            const { name, phone, email, password, photo_url } = req.body
             //validatioin
-            if(!Helper.validateField(name , phone, email,  password , photo_url )){
+            if (!Helper.validateField(name, phone, email, password, photo_url)) {
                 throw new Error("Enter all the required field!");
             }
 
@@ -34,11 +34,11 @@ const AoController = {
             //get hash pass & save new user into db
             const hashpass = await bcryptjs.hash(password, await bcryptjs.genSalt(10))
             const ao = {
-                name , 
+                name,
                 phone,
-                 email,  
-                 password , 
-                 photo_url,
+                email,
+                password,
+                photo_url,
                 password: hashpass
             }
 
@@ -53,8 +53,13 @@ const AoController = {
                     //send token in http cookie
                     res.cookie(Define.TOKEN, token, {
                         httpOnly: true,
+                        secure: Define.TOKEN_COOKIE_SECURE,//only for browser
+                        sameSite: 'lax',
                         expires: new Date(expireAt)
                     })
+
+
+
                     delete ao.password
                     ao['id'] = results.insertId
                     ao['token'] = token
@@ -87,7 +92,7 @@ const AoController = {
         try {
             const { email, password } = req.body
             //validatioin
-            if(!Helper.validateField(email , password)){
+            if (!Helper.validateField(email, password)) {
                 throw new Error("Enter all the required field!")
             }
 
@@ -114,6 +119,8 @@ const AoController = {
                         //send token in http cookie
                         res.cookie(Define.TOKEN, token, {
                             httpOnly: true,
+                            secure: Define.TOKEN_COOKIE_SECURE,//only for browser
+                            sameSite: 'lax',
                             expires: new Date(expireAt)
                         })
 
@@ -134,34 +141,35 @@ const AoController = {
 
 
     //start ao logout
-        /**
-     * @body { } =req.body
-     * @param {}=req.params
-     * @description 
-     * expire jwt access token
-     * return logout as response
-     * @response {error(boolean), message(String), response(object:USER)}
-     */
+    /**
+ * @body { } =req.body
+ * @param {}=req.params
+ * @description 
+ * expire jwt access token
+ * return logout as response
+ * @response {error(boolean), message(String), response(object:USER)}
+ */
 
 
-
-   logout: (req, res) => {
+    logout: (req, res) => {
         res.cookie(Define.TOKEN, "", {
             httpOnly: true,
+            secure: Define.TOKEN_COOKIE_SECURE,
+            sameSite: 'lax',
             expires: new Date(0)
         })
         res.status(200).json(new Response(false, "ao logged out", {}))
     },//ao logout
-  
+
     //ao isLoggedIn start
-        /**
-     * @body { } =req.body
-     * @param {}=req.params
-     * @description 
-     * expire jwt access token
-     * return logout as response
-     * @response {error(boolean), message(String), response(object:USER)}
-     */
+    /**
+ * @body { } =req.body
+ * @param {}=req.params
+ * @description 
+ * expire jwt access token
+ * return logout as response
+ * @response {error(boolean), message(String), response(object:USER)}
+ */
 
     isLoggedIn: (req, res) => {
         try {
@@ -175,14 +183,16 @@ const AoController = {
             res.send(true)// logged in
         } catch (e) {
             //remove the old/expire token
-            res.cookie("token", "", {
+            res.cookie(Define.TOKEN, "", {
                 httpOnly: true,
+                secure: Define.TOKEN_COOKIE_SECURE,
+                sameSite: 'lax',
                 expires: new Date(0)
             })
             res.send(false)//not logged in
         }
     },//ao isLoggedIn  
- 
+
 }
 
 module.exports = AoController

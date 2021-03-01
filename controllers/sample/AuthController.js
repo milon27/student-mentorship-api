@@ -50,6 +50,8 @@ const AuthController = {
                     //send token in http cookie
                     res.cookie(Define.TOKEN, token, {
                         httpOnly: true,
+                        secure: Define.TOKEN_COOKIE_SECURE,//only for browser
+                        sameSite: 'lax',
                         expires: new Date(expireAt)
                     })
                     delete user.pass
@@ -96,6 +98,8 @@ const AuthController = {
                         //send token in http cookie
                         res.cookie(Define.TOKEN, token, {
                             httpOnly: true,
+                            secure: Define.TOKEN_COOKIE_SECURE,//only for browser
+                            sameSite: 'lax',
                             expires: new Date(expireAt)
                         })
 
@@ -116,6 +120,8 @@ const AuthController = {
     logout: (req, res) => {
         res.cookie(Define.TOKEN, "", {
             httpOnly: true,
+            secure: Define.TOKEN_COOKIE_SECURE,
+            sameSite: 'lax',
             expires: new Date(0)
         })
         res.status(200).json(new Response(false, "user logged out", {}))
@@ -134,6 +140,8 @@ const AuthController = {
             //remove the old/expire token
             res.cookie("token", "", {
                 httpOnly: true,
+                secure: Define.TOKEN_COOKIE_SECURE,
+                sameSite: 'lax',
                 expires: new Date(0)
             })
             res.send(false)//not logged in

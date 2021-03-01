@@ -22,9 +22,9 @@ const StudentController = {
      */
     signUp: async (req, res) => {
         try {
-            const { student_id, name , present_address, email, phone, parents_phone ,   password, photo_url } = req.body
+            const { student_id, name, present_address, email, phone, parents_phone, password, photo_url } = req.body
             //validatioin
-            if(!Helper.validateField(student_id, name,present_address , email, phone, parents_phone ,   password, photo_url )){
+            if (!Helper.validateField(student_id, name, present_address, email, phone, parents_phone, password, photo_url)) {
                 throw new Error("Enter all the required field!");
             }
 
@@ -36,11 +36,11 @@ const StudentController = {
             const student = {
                 student_id,
                 present_address,
-                 name , 
-                 email, 
-                 phone, 
-                 parents_phone ,   
-                photo_url ,
+                name,
+                email,
+                phone,
+                parents_phone,
+                photo_url,
                 password: hashpass
             }
 
@@ -55,6 +55,8 @@ const StudentController = {
                     //send token in http cookie
                     res.cookie(Define.TOKEN, token, {
                         httpOnly: true,
+                        secure: Define.TOKEN_COOKIE_SECURE,//only for browser
+                        sameSite: 'lax',
                         expires: new Date(expireAt)
                     })
                     delete student.pass
@@ -89,7 +91,7 @@ const StudentController = {
         try {
             const { email, password } = req.body
             //validatioin
-            if(!Helper.validateField(email , password)){
+            if (!Helper.validateField(email, password)) {
                 throw new Error("Enter all the required field!")
             }
 
@@ -116,6 +118,8 @@ const StudentController = {
                         //send token in http cookie
                         res.cookie(Define.TOKEN, token, {
                             httpOnly: true,
+                            secure: Define.TOKEN_COOKIE_SECURE,//only for browser
+                            sameSite: 'lax',
                             expires: new Date(expireAt)
                         })
 
@@ -136,34 +140,36 @@ const StudentController = {
 
 
     //start student logout
-        /**
-     * @body { } =req.body
-     * @param {}=req.params
-     * @description 
-     * expire jwt access token
-     * return logout as response
-     * @response {error(boolean), message(String), response(object:USER)}
-     */
+    /**
+ * @body { } =req.body
+ * @param {}=req.params
+ * @description 
+ * expire jwt access token
+ * return logout as response
+ * @response {error(boolean), message(String), response(object:USER)}
+ */
 
 
 
-   logout: (req, res) => {
+    logout: (req, res) => {
         res.cookie(Define.TOKEN, "", {
             httpOnly: true,
+            secure: Define.TOKEN_COOKIE_SECURE,//only for browser
+            sameSite: 'lax',
             expires: new Date(0)
         })
         res.status(200).json(new Response(false, "Student logged out", {}))
     },//student logout
-  
+
     //student isLoggedIn start
-        /**
-     * @body { } =req.body
-     * @param {}=req.params
-     * @description 
-     * expire jwt access token
-     * return logout as response
-     * @response {error(boolean), message(String), response(object:USER)}
-     */
+    /**
+ * @body { } =req.body
+ * @param {}=req.params
+ * @description 
+ * expire jwt access token
+ * return logout as response
+ * @response {error(boolean), message(String), response(object:USER)}
+ */
 
     isLoggedIn: (req, res) => {
         try {
@@ -179,12 +185,14 @@ const StudentController = {
             //remove the old/expire token
             res.cookie("token", "", {
                 httpOnly: true,
+                secure: Define.TOKEN_COOKIE_SECURE,//only for browser
+                sameSite: 'lax',
                 expires: new Date(0)
             })
             res.send(false)//not logged in
         }
     },//student isLoggedIn  
- 
+
 }
 
 module.exports = StudentController
