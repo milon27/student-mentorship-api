@@ -2,6 +2,7 @@ const Define = {
     //user access token
     TOKEN: "token",
     TOKEN_EXPIRE_DAY: 2,
+    TOKEN_COOKIE_SECURE: false,
     //pagination
     CREATED_AT: "created_at",
     PAGINATE_PAGE_SIZE: 5,

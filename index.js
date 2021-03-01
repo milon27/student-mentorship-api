@@ -10,21 +10,16 @@ const app = express();
 app.use(express.urlencoded({ extended: false }));//url encode parse
 app.use(express.json());//json parse
 app.use(cookieparser())// parse http cookie
-app.use(cors({
-    origin: "*",//["http://localhost:3000/"]
-    credentials: true//enable storing cookie
-}));//enable cros
+app.use(cors({ origin: true, credentials: true }))//enable cros
 
 /**
  * @enable cookie store in front end
- * axios.post('url',{},{withCredentials:true}) or
  * axios.defaults.withCredentials=true
  */
 
 /**
  * @routers
  */
-
 
 // sample code start here
 // @description use for support chat system @author milon27
@@ -44,7 +39,6 @@ app.use('/student', require('./routers/student/studentRouter'));
 
 // @description use for  ao  @author rijon1810
 app.use('/ao', require('./routers/ao/aoRouter'));
-
 
 
 /**
