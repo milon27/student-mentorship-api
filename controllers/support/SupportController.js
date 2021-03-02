@@ -45,7 +45,8 @@ const SupportController = {
                     const { t_id, m_id } = result
                     ticket.id = t_id
                     ticket_chat.id = m_id
-                    let response = new Response(false, "A Pending Ticket Created Successfully", { ticket, ticket_chat });
+                    // let response = new Response(false, "A Pending Ticket Created Successfully", { ticket, ticket_chat }
+                    let response = new Response(false, "A Pending Ticket Created Successfully", ticket);
                     res.send(response);
                 }
             })
