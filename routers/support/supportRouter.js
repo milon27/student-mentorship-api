@@ -3,6 +3,7 @@
  */
 const express = require('express')
 const SupportController = require('../../controllers/support/SupportController')
+const auth_cookie = require('../middleware/authMiddleware')
 const router = express.Router()
 
 //make this router private here
@@ -15,7 +16,7 @@ const router = express.Router()
  * @body {student_id,ticket_title,assigned_user_id,first_message}=req.body
  * @endpoint http://localhost:2727/support/create-ticket
  */
-router.post('/create-ticket', SupportController.create_ticket)
+router.post('/create-ticket', auth_cookie, SupportController.create_ticket)
 
 /**
  * @private
@@ -23,7 +24,7 @@ router.post('/create-ticket', SupportController.create_ticket)
  * @body {ticket_id, message, img_url(Optional), sender_id}=req.body
  * @endpoint http://localhost:2727/support/create-message
  */
-router.post('/create-message', SupportController.create_message)
+router.post('/create-message', auth_cookie, SupportController.create_message)
 
 /**
  * @private
@@ -37,7 +38,7 @@ router.post('/create-message', SupportController.create_message)
  * @example for student=http://localhost:2727/support/get/ticket/student_id/17303024/1
  * @example for all chat list=http://localhost:2727/support/get/ticket_chat/ticket_id/3/1
  */
-router.get('/get/:table/:field/:value/:page_no', SupportController.getByField_P)
+router.get('/get/:table/:field/:value/:page_no', auth_cookie, SupportController.getByField_P)
 
 
 /**
@@ -48,7 +49,7 @@ router.get('/get/:table/:field/:value/:page_no', SupportController.getByField_P)
  * @endpoint http://localhost:2727/support/update-ticket/:id
  * @example http://localhost:2727/support/update-ticket/3
  */
-router.put('/update-ticket/:id', SupportController.updateTicket)
+router.put('/update-ticket/:id', auth_cookie, SupportController.updateTicket)
 
 /**
  * @description 6.seach ticket by id or title
@@ -57,7 +58,7 @@ router.put('/update-ticket/:id', SupportController.updateTicket)
  * @endpoint http://localhost:2727/support/search/:text
  * @example http://localhost:2727/support/search/17303024
  */
-router.get('/search/:text', SupportController.searchTicket)
+router.get('/search/:text', auth_cookie, SupportController.searchTicket)
 /**
  * @description 7.search text on a specific ticket chat
  * @param {text,ticket_id} search text,on a specific ticket chat
@@ -65,7 +66,7 @@ router.get('/search/:text', SupportController.searchTicket)
  * @endpoint http://localhost:2727/support/search-message/:ticket_id/:text
  * @example http://localhost:2727/support/search-message/2/first
  */
-router.get('/search-message/:ticket_id/:text', SupportController.searchTicketChat)
+router.get('/search-message/:ticket_id/:text', auth_cookie, SupportController.searchTicketChat)
 
 
 
