@@ -37,6 +37,12 @@ class Model {
     }
     //common operation
 
+    //get a data
+    getOne = async (table, field, value, callback) => {
+        let sql = `SELECT * FROM ${table} WHERE ??=?`;
+        this.db.query(sql, [field, value], callback);
+    }
+
     //insert into a specific table
     /**
      * @param {table name} table 

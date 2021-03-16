@@ -29,7 +29,8 @@ const SupportController = {
             const ticket = {
                 student_id: sender,
                 ticket_title,
-                ticket_dept
+                ticket_dept,
+                ticket_state: Define.PENDING_TICKET
             }
             const ticket_chat = {
                 message: message,
@@ -44,6 +45,8 @@ const SupportController = {
                 } else {
                     const { t_id, m_id } = result
                     ticket.id = t_id
+                    ticket.created_at = new Date()
+
                     ticket_chat.id = m_id
                     // let response = new Response(false, "A Pending Ticket Created Successfully", { ticket, ticket_chat }
                     let response = new Response(false, "A Pending Ticket Created Successfully", ticket);
@@ -233,6 +236,67 @@ const SupportController = {
             res.send(response);
         }
     },
+
+
+    //get one ticket
+    getOneTicket: (req, res) => {
+        try {
+            const { table, field, value } = req.params
+            new SupportModel().getOne(table, field, value, (err, results) => {
+                if (err) {
+                    let response = new Response(true, err.message, err);
+                    res.send(response);
+                } else {
+                    let response;
+                    //console.log("results=", results);
+                    if (results.length > 0) {
+                        response = new Response(false, `one ${field} from ${table}`, results[0]);
+                    } else {
+                        response = new Response(true, `one ${field} from ${table} is empty`, {});
+                    }
+                    res.send(response);
+                }
+            })//end db op
+
+        } catch (e) {
+            let response = new Response(true, e.message, e);
+            res.send(response);
+        }
+    },
+
+    //get all chats without pagination
+    /**
+         * @body {}=req.body
+         * @param { table, field, value, page_no }=req.params
+         * @description1 get all tickets based on ticket_state order by created_at descending
+         * @description2 get all tickets based on student_id order by created_at descending
+         * @description3 get all messages/chat based on ticket_id order by created_at descending
+         * @response {error(boolean), message(String), response(Array:[])}
+         */
+    getByField_NP: (req, res) => {
+        try {
+            const { table, field, value } = req.params
+
+            new SupportModel().getAllByField(table, field, value, Define.CREATED_AT, (err, results) => {
+                if (err) {
+                    let response = new Response(true, err.message, err);
+                    res.send(response);
+                } else {
+                    let response;
+                    if (results.length > 0) {
+                        response = new Response(false, `all ${field} from ${table} list`, results);
+                    } else {
+                        response = new Response(false, `all ${field} from ${table} list is empty`, []);
+                    }
+                    res.send(response);
+                }
+            })//end db op
+        } catch (e) {
+            let response = new Response(true, e.message, e);
+            res.send(response);
+        }
+
+    },//getByField_P
 
 
 }

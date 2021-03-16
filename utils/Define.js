@@ -5,7 +5,7 @@ const Define = {
     TOKEN_COOKIE_SECURE: false,
     //pagination
     CREATED_AT: "created_at",
-    PAGINATE_PAGE_SIZE: 5,
+    PAGINATE_PAGE_SIZE: 10,
     //time
     DAYS: "days",
     MONTHS: "months",
