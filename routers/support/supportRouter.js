@@ -28,7 +28,19 @@ router.post('/create-message', auth_cookie, SupportController.create_message)
 
 /**
  * @private
- * @description 3.get all tickets/message/anything based on field
+ * @description 3.get all tickets/message/anything based on field (no Pagination)
+ * @param {table} ticket
+ * @param {field} {id}//ticket id
+ * @param {value} (7)
+ * @endpoint http://localhost:2727/support/get-one/:table/:field/:value/
+ * @example for get single ticket =http://localhost:2727/support/get-one/ticket/id/7/
+ */
+router.get('/get-one/:table/:field/:value/', auth_cookie, SupportController.getOneTicket)
+
+
+/**
+ * @private
+ * @description 4.get all tickets/message/anything based on field (with pagination)
  * @param {table} ticket,ticket_chat
  * @param {field} {ticket_state,student_id} and {ticket_id}
  * @param {value} (pending,completed,processing,snoozed),(17303024),(3)
@@ -43,7 +55,22 @@ router.get('/get/:table/:field/:value/:page_no', auth_cookie, SupportController.
 
 /**
  * @private
- * @description 5.update ticket_state
+ * @description 5.get all tickets/message/anything based on field (no Pagination)
+ * @param {table} ticket,ticket_chat
+ * @param {field} {ticket_state,student_id} and {ticket_id}
+ * @param {value} (pending,completed,processing,snoozed),(17303024),(3)
+ * @endpoint http://localhost:2727/support/get/:table/:field/:value/
+ * @example for a/o=http://localhost:2727/support/get/ticket/ticket_state/pending/
+ * @example for student=http://localhost:2727/support/get/ticket/student_id/17303024/
+ * @example for all chat list=http://localhost:2727/support/get/ticket_chat/ticket_id/3/
+ */
+router.get('/get/:table/:field/:value/', auth_cookie, SupportController.getByField_NP)
+
+
+
+/**
+ * @private
+ * @description 6.update ticket_state
  * @param {id} ticket_id
  * @body {ticket_state} (pending,completed,processing,snoozed)
  * @endpoint http://localhost:2727/support/update-ticket/:id
@@ -52,7 +79,7 @@ router.get('/get/:table/:field/:value/:page_no', auth_cookie, SupportController.
 router.put('/update-ticket/:id', auth_cookie, SupportController.updateTicket)
 
 /**
- * @description 6.seach ticket by id or title
+ * @description 7.seach ticket by id or title
  * @param {text} search text
  * @body {}
  * @endpoint http://localhost:2727/support/search/:text
@@ -60,7 +87,7 @@ router.put('/update-ticket/:id', auth_cookie, SupportController.updateTicket)
  */
 router.get('/search/:text', auth_cookie, SupportController.searchTicket)
 /**
- * @description 7.search text on a specific ticket chat
+ * @description 8.search text on a specific ticket chat
  * @param {text,ticket_id} search text,on a specific ticket chat
  * @body {}
  * @endpoint http://localhost:2727/support/search-message/:ticket_id/:text
