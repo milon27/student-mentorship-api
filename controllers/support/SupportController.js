@@ -105,9 +105,18 @@ const SupportController = {
      */
     getByField_P: (req, res) => {
         try {
-            const { table, field, value, page_no } = req.params
+            let { table, field, value, page_no, field2, value2 } = req.params
 
-            new SupportModel().getPaginateList(page_no, table, field, value, Define.CREATED_AT, (err, results) => {
+            //console.log("ck=", "--", field2, "=", value2);
+
+            if (!field2) {
+                field2 = ""
+            }
+            if (!value2) {
+                value2 = -1
+            }
+
+            new SupportModel().getPaginateList(page_no, table, field, value, field2, value2, Define.CREATED_AT, (err, results) => {
                 if (err) {
                     let response = new Response(true, err.message, err);
                     res.send(response);
@@ -145,6 +154,7 @@ const SupportController = {
             //only for assign A/O id
             if (assigned_user_id) {
                 ticket.assigned_user_id = assigned_user_id
+                ticket.ticket_state = Define.PROCESSING_TICKET
                 message = `ticket id ${id} assigned to A/O user id ${assigned_user_id}`
             } else {
                 //only for state update
@@ -159,9 +169,13 @@ const SupportController = {
                     }
                     ticket.reschedule_reason = reschedule_reason
                     ticket.reschedule_date = reschedule_date
+                } else {
+                    ticket.reschedule_reason = reschedule_reason || "NOT_SET"
+                    ticket.reschedule_date = reschedule_date || "2021-1-12"
                 }
                 message = `ticket updated to ${ticket_state}`
             }//end else
+
 
             new SupportModel().updateData(DB_Define.TICKET_TABLE, ticket, (err, results) => {
                 if (err) {
@@ -187,7 +201,8 @@ const SupportController = {
     searchTicket: (req, res) => {
         try {
             const text = req.params.text //ticket id or ticket title
-            new SupportModel().searchTicket(text, (err, results) => {
+            const id = req.params.id //user id 
+            new SupportModel().searchTicket(text, id, (err, results) => {
                 if (err) {
                     let response = new Response(true, err.message, err);
                     res.send(response);
@@ -298,6 +313,51 @@ const SupportController = {
 
     },//getByField_P
 
+
+    //get ticket summary
+
+    getTicketSummary: (req, res) => {
+
+        try {
+
+            const { id, type } = req.params
+
+            new SupportModel().ticketSummary(type, id, (err, results) => {
+                if (err) {
+                    let response = new Response(true, err.message, err);
+                    res.send(response);
+                } else {
+                    if (results.length > 0) {
+                        let summary = {
+                            total_pending: 0,
+                            total_processing: 0,
+                            total_snoozed: 0,
+                            total_completed: 0,
+                        }
+                        results.forEach(i => {
+                            if (i.ticket_state === Define.PENDING_TICKET) {
+                                summary.total_pending = i.total
+                            } if (i.ticket_state === Define.SNOOZED_TICKET) {
+                                summary.total_snoozed = i.total
+                            } if (i.ticket_state === Define.COMPLETED_TICKET) {
+                                summary.total_completed = i.total
+                            } if (i.ticket_state === Define.PROCESSING_TICKET) {
+                                summary.total_processing = i.total
+                            }
+                        });
+                        let response = new Response(false, "ticket summary", summary);
+                        res.send(response);
+                    } else {
+                        let response = new Response(true, "not found", {});
+                        res.send(response);
+                    }
+                }
+            })
+        } catch (e) {
+            let response = new Response(true, e.message, e);
+            res.send(response);
+        }
+    }
 
 }
 

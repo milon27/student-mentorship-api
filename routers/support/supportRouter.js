@@ -28,7 +28,7 @@ router.post('/create-message', auth_cookie, SupportController.create_message)
 
 /**
  * @private
- * @description 3.get all tickets/message/anything based on field (no Pagination)
+ * @description 3.get one ticket/message/anything based on field(id)
  * @param {table} ticket
  * @param {field} {id}//ticket id
  * @param {value} (7)
@@ -51,6 +51,22 @@ router.get('/get-one/:table/:field/:value/', auth_cookie, SupportController.getO
  * @example for all chat list=http://localhost:2727/support/get/ticket_chat/ticket_id/3/1
  */
 router.get('/get/:table/:field/:value/:page_no', auth_cookie, SupportController.getByField_P)
+
+
+
+/**
+ * @private
+ * @description 4.1 (with extra filter).get all tickets/message/anything based on field (with pagination)
+ * @param {table} ticket,ticket_chat
+ * @param {field,field2} {ticket_state,student_id} and {ticket_id}
+ * @param {value,value2} (pending,completed,processing,snoozed),(17303024),(3)
+ * @param {page_no} 1,2,3,4
+ * @endpoint http://localhost:2727/support/get/:table/:field/:value/:page_no
+ * @example for a/o=http://localhost:2727/support/get/ticket/ticket_state/pending/1
+ * @example for student=http://localhost:2727/support/get/ticket/student_id/17303024/1
+ * @example for all chat list=http://localhost:2727/support/get/ticket_chat/ticket_id/3/1
+ */
+router.get('/get/:table/:field/:value/:field2/:value2/:page_no', auth_cookie, SupportController.getByField_P)
 
 
 /**
@@ -78,14 +94,17 @@ router.get('/get/:table/:field/:value/', auth_cookie, SupportController.getByFie
  */
 router.put('/update-ticket/:id', auth_cookie, SupportController.updateTicket)
 
+
+//search
+
 /**
  * @description 7.seach ticket by id or title
- * @param {text} search text
+ * @param {text,id} search text and AO id
  * @body {}
- * @endpoint http://localhost:2727/support/search/:text
- * @example http://localhost:2727/support/search/17303024
+ * @endpoint http://localhost:2727/support/search/:text/:id
+ * @example http://localhost:2727/support/search/17303024/2
  */
-router.get('/search/:text', auth_cookie, SupportController.searchTicket)
+router.get('/search/:text/:id', auth_cookie, SupportController.searchTicket)
 /**
  * @description 8.search text on a specific ticket chat
  * @param {text,ticket_id} search text,on a specific ticket chat
@@ -95,6 +114,14 @@ router.get('/search/:text', auth_cookie, SupportController.searchTicket)
  */
 router.get('/search-message/:ticket_id/:text', auth_cookie, SupportController.searchTicketChat)
 
-
+/**
+ * @description get ticket summary (total ticket in each state)
+ * @param {ao id,student id}
+ * @param {type}=studnet summery or ao summnery
+ * @endpoint http://localhost:2727/support/summary/:type/:id
+ * @example http://localhost:2727/support/summary/student/17303023
+ * @example http://localhost:2727/support/summary/ao/2
+ */
+router.get('/summary/:type/:id', auth_cookie, SupportController.getTicketSummary)
 
 module.exports = router

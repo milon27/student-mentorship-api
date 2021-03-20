@@ -94,13 +94,21 @@ class Model {
      * @param {order_field} order by field
      * @param {callback} (error,results)=>{}
      */
-    getPaginateList = (page, table, field, value, order_field, callback) => {
+    getPaginateList = (page, table, field, value, field2 = "", value2 = -1, order_field, callback) => {
+
         //implement pagination here later
         const page_size = Define.PAGINATE_PAGE_SIZE;
         let skip = (page - 1) * page_size;
 
-        let sql = `SELECT * from ${table} WHERE ?? =? ORDER BY ?? DESC LIMIT ? OFFSET ? `;
-        this.db.query(sql, [field, value, order_field, page_size, skip], callback);
+        let sql = "";
+        if (value2 === -1 && field2 === "") {
+            sql = `SELECT * from ${table} WHERE ?? =? ORDER BY ?? DESC LIMIT ? OFFSET ? `;
+            this.db.query(sql, [field, value, order_field, page_size, skip], callback);
+        } else {
+            sql = `SELECT * from ${table} WHERE ?? =? AND ??=? ORDER BY ?? DESC LIMIT ? OFFSET ? `;
+            this.db.query(sql, [field, value, field2, value2, order_field, page_size, skip], callback);
+        }
+
     }
 }
 

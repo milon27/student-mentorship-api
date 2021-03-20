@@ -4,6 +4,7 @@ const Define = {
     TOKEN_EXPIRE_DAY: 2,
     TOKEN_COOKIE_SECURE: false,
     //pagination
+    FORMAT_SQL_DATE: "YYYY-MM-DD",
     CREATED_AT: "created_at",
     PAGINATE_PAGE_SIZE: 10,
     //time
