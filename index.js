@@ -21,6 +21,11 @@ app.use(cors({ origin: true, credentials: true }))//enable cros
  * @routers
  */
 
+app.get('/', (req, res) => {
+    res.send("working...")
+})
+
+
 // sample code start here
 // @description use for support chat system @author milon27
 app.use('/auth', require('./routers/sample/authRouter'))
