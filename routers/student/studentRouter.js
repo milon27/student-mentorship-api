@@ -27,6 +27,7 @@ router.post('/signup', StudentController.signUp)
 router.post('/login', StudentController.login)
 
 /**
+ * @get
  * @public
  * @description 3. logout student
  * @endpoint http://localhost:2727/student/logout
@@ -35,6 +36,7 @@ router.post('/login', StudentController.login)
 router.get('/logout', StudentController.logout)
 
 /**
+ * @get
  * @public
  * @description 4. ck logged in or not
  * @endpoint http://localhost:2727/student/is-loggedin

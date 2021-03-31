@@ -23,7 +23,8 @@ class DbModel extends Model {
             ticket_state varchar(100) DEFAULT "${pending}",
             reschedule_reason varchar(200) DEFAULT "${Define.NOT_SET}",
             reschedule_date TIMESTAMP  DEFAULT CURRENT_TIMESTAMP,
-            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            INDEX (student_id,assigned_user_id)
         );`;
         this.db.query(sql, callback);
     }
@@ -37,7 +38,8 @@ class DbModel extends Model {
             message varchar(200),
             img_url varchar(200) DEFAULT "${Define.NOT_SET}",
             sender_id varchar(200),
-            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            INDEX (ticket_id)
         );`;
 
         this.db.query(sql, callback);
@@ -48,7 +50,7 @@ class DbModel extends Model {
         const table_name = "users"
         let sql = `CREATE TABLE ${table_name}(
             id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-            email varchar(200),
+            email varchar(200) UNIQUE,
             name varchar(200),
             pass varchar(200),
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -63,7 +65,7 @@ class DbModel extends Model {
         let sql = `CREATE TABLE ${table_name}(
             id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
             student_id varchar(200) UNIQUE,
-            email varchar(200),
+            email varchar(200) UNIQUE,
             present_address varchar(200),
             name varchar(200),
             parents_phone varchar(200),
@@ -81,7 +83,7 @@ class DbModel extends Model {
         const table_name = DB_Define.AO_TABLE
         let sql = `CREATE TABLE ${table_name}(
             id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-            email varchar(200),
+            email varchar(200) UNIQUE,
             name varchar(200),
             password varchar(200),
             phone varchar(200),
@@ -92,6 +94,22 @@ class DbModel extends Model {
         this.db.query(sql, callback);
     }
 
+    //create todo table
+    create_todo_table(callback) {
+        const table_name = DB_Define.TODO_TABLE
+        let sql = `CREATE TABLE ${table_name}(
+            id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+            user_id INT,
+            title varchar(200),
+            is_done TINYINT,
+            feedback varchar(200) DEFAULT "",
+            dead_line TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            INDEX (user_id)
+        );`;
+
+        this.db.query(sql, callback);
+    }
 
 }
 

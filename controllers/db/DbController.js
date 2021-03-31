@@ -78,6 +78,18 @@ const DbController = {
         })
     },//student end
 
+    //create todo table
+    createTodoTable: (req, res) => {
+        new DbModel().create_todo_table((err, results) => {
+            if (err) {
+                let response = new Response(true, err.message, err);
+                res.send(response);
+            } else {
+                let response = new Response(false, " Todo table Created Successfully", results);
+                res.status(200).send(response);
+            }
+        })
+    },//todo end
 
 
 
