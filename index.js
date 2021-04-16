@@ -57,9 +57,6 @@ const server = app.listen(port, () => {
     console.log(`server running at http://localhost:${port}`)
 })
 
-module.exports = {
-    BASE_URL: `http://localhost:${port}`
-}
 
 //create the socket-io
 const io = require("socket.io")(server, {
