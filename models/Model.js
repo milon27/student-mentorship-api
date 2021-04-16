@@ -12,10 +12,11 @@ require('dotenv').config();
  */
 class Model {
     //mysql config
-    #host = `${process.env.HOST}`;//private field
-    #user = `${process.env.USER}`;//private field
-    #pass = `${process.env.PASS}`;//private field
-    #database = `${process.env.DB}`;//private field
+
+    #host = (process.env.NODE_ENV === "dev") ? `${process.env.HOST2}` : `${process.env.HOST}`;//private field
+    #user = (process.env.NODE_ENV === "dev") ? `${process.env.USER2}` : `${process.env.USER}`;//private field
+    #pass = (process.env.NODE_ENV === "dev") ? `${process.env.PASS2}` : `${process.env.PASS}`;//private field
+    #database = (process.env.NODE_ENV === "dev") ? `${process.env.DB2}` : `${process.env.DB}`;//private field
 
     //database: database connection
     db = mysql.createConnection({
@@ -23,7 +24,7 @@ class Model {
         user: this.#user,
         password: this.#pass,
         database: this.#database,
-        timezone: 'utc'  //<-here this line was missing
+        timezone: 'gmt+6'  //<-here this line was missing 'utc'
     });
     //test the dabase connection
     testConnection = () => {

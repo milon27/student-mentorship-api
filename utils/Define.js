@@ -1,4 +1,5 @@
 const Define = {
+    API_BASE_URL: "http://localhost:2727/",
     //user access token
     TOKEN: "token",
     TOKEN_EXPIRE_DAY: 2,

@@ -3,7 +3,8 @@
  */
 const express = require('express');
 const cors = require('cors')
-const cookieparser = require('cookie-parser')
+const cookieparser = require('cookie-parser');
+const onConnected = require('./socket/main');
 require('dotenv').config();
 const app = express();
 
@@ -45,11 +46,24 @@ app.use('/student', require('./routers/student/studentRouter'));
 // @description use for  ao  @author rijon1810
 app.use('/ao', require('./routers/ao/aoRouter'));
 
+// @description use for todo  @author milon27
+app.use('/todo', require('./routers/todo/todoRouter'));
 
 /**
  * @init_server
  */
 const port = process.env.PORT || 2828;
-app.listen(port, () => {
+const server = app.listen(port, () => {
     console.log(`server running at http://localhost:${port}`)
 })
+
+
+//create the socket-io
+const io = require("socket.io")(server, {
+    cors: {
+        origin: "*",
+        methods: ["GET", "POST"]
+    }
+});
+
+io.on('connection', onConnected)
