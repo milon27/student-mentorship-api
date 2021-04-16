@@ -3,7 +3,8 @@
  */
 const express = require('express');
 const cors = require('cors')
-const cookieparser = require('cookie-parser')
+const cookieparser = require('cookie-parser');
+const onConnected = require('./socket/main');
 require('dotenv').config();
 const app = express();
 
@@ -52,6 +53,20 @@ app.use('/todo', require('./routers/todo/todoRouter'));
  * @init_server
  */
 const port = process.env.PORT || 2828;
-app.listen(port, () => {
+const server = app.listen(port, () => {
     console.log(`server running at http://localhost:${port}`)
 })
+
+module.exports = {
+    BASE_URL: `http://localhost:${port}`
+}
+
+//create the socket-io
+const io = require("socket.io")(server, {
+    cors: {
+        origin: "*",
+        methods: ["GET", "POST"]
+    }
+});
+
+io.on('connection', onConnected)

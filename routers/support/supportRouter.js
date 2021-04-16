@@ -19,12 +19,12 @@ const router = express.Router()
 router.post('/create-ticket', auth_cookie, SupportController.create_ticket)
 
 /**
- * @private
+ * @public (not used in any client app)
  * @description 2. create-message insert ( message on ticket_chat table)
  * @body {ticket_id, message, img_url(Optional), sender_id}=req.body
  * @endpoint http://localhost:2727/support/create-message
  */
-router.post('/create-message', auth_cookie, SupportController.create_message)
+router.post('/create-message', SupportController.create_message)
 
 /**
  * @private
