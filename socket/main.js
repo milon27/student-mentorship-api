@@ -1,4 +1,4 @@
-const { onJoinTicket, onCreateMessage } = require("../controllers/support/SupportSocket");
+const { onJoinTicket, onCreateMessage } = require("./support/SupportSocket");
 const SocketDefine = require("../utils/SocketDefine");
 
 const onConnected = (socket) => {
