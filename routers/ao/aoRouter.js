@@ -3,7 +3,7 @@
  */
 const express = require('express')
 const router = express.Router()
-const aoController = require('../../controllers/ao/AoController')
+const AoController = require('../../controllers/ao/AoController')
 
 
 /**
@@ -14,7 +14,7 @@ const aoController = require('../../controllers/ao/AoController')
  * @endpoint http://localhost:2727/ao/signup
  * @example http://localhost:2727/ao/signup
  */
-router.post('/signup', aoController.signUp)
+router.post('/signup', AoController.signUp)
 
 /**
  * @post
@@ -24,7 +24,7 @@ router.post('/signup', aoController.signUp)
  * @endpoint http://localhost:2727/ao/login
  * @example http://localhost:2727/ao/login
  */
-router.post('/login', aoController.login)
+router.post('/login', AoController.login)
 
 /**
  * @public
@@ -32,7 +32,7 @@ router.post('/login', aoController.login)
  * @endpoint http://localhost:2727/ao/logout
  * @example same
  */
-router.get('/logout', aoController.logout)
+router.get('/logout', AoController.logout)
 
 /**
  * @public
@@ -40,6 +40,6 @@ router.get('/logout', aoController.logout)
  * @endpoint http://localhost:2727/ao/is-loggedin
  * @example http://localhost:2727/ao/is-loggedin
  */
-router.get('/is-loggedin', aoController.isLoggedIn)
+router.get('/is-loggedin', AoController.isLoggedIn)
 
 module.exports = router
