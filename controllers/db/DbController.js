@@ -3,6 +3,17 @@ const Response = require("../../models/Response")
 
 
 const DbController = {
+    test: (req, res) => {
+        new DbModel().test((err, results) => {
+            if (err) {
+                let response = new Response(true, err.message, err);
+                res.send(response);
+            } else {
+                let response = new Response(false, " result: ", results);
+                res.status(200).send(response);
+            }
+        })
+    },
     createDb: (req, res) => {
         new DbModel().createDatabase((err, results) => {
             if (err) {

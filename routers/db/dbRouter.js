@@ -2,6 +2,8 @@ const express = require('express')
 const DbController = require('../../controllers/db/DbController')
 const router = express.Router()
 
+router.get('/test', DbController.test)
+
 /**
  * @description 1. create the database
  * @endpoint http://localhost:2727/db/create-db

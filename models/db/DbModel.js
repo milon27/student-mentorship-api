@@ -10,6 +10,10 @@ class DbModel extends Model {
         this.db.query(sql, callback);
     }
 
+    test(callback) {
+        this.db.query(`show status where variable_name = 'Threads_connected';`, callback)
+    }
+
     //create TICKET_TABLE
     create_ticket_table(callback) {
         const pending = Define.PENDING_TICKET
