@@ -2,40 +2,22 @@
  * @design by milon27
  */
 
-const mysql = require('mysql');
-const Define = require('../utils/Define');
+
+const mysql = require('mysql')
 require('dotenv').config();
+
+const pool = require('./config')
+const Define = require('../utils/Define');
 
 /**
  * @description base model for all model
  * @property {db} this can be used to access the database
  */
+
 class Model {
     //mysql config
+    db = pool
 
-    #host = (process.env.NODE_ENV === "dev") ? `${process.env.HOST2}` : `${process.env.HOST}`;//private field
-    #user = (process.env.NODE_ENV === "dev") ? `${process.env.USER2}` : `${process.env.USER}`;//private field
-    #pass = (process.env.NODE_ENV === "dev") ? `${process.env.PASS2}` : `${process.env.PASS}`;//private field
-    #database = (process.env.NODE_ENV === "dev") ? `${process.env.DB2}` : `${process.env.DB}`;//private field
-
-    //database: database connection
-    db = mysql.createConnection({
-        host: this.#host,
-        user: this.#user,
-        password: this.#pass,
-        database: this.#database,
-        timezone: 'gmt+6'  //<-here this line was missing 'utc'
-    });
-    //test the dabase connection
-    testConnection = () => {
-        this.db.connect((e) => {
-            if (e) {
-                console.log("conection failed! error: " + e.message);
-                return;
-            }
-            console.log("conection success");
-        });
-    }
     //common operation
 
     //get a data
