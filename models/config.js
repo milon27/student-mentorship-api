@@ -18,13 +18,14 @@ const pool = mysql.createPool({
     timezone: 'gmt+6'  //<-here this line was missing 'utc'
 });
 
-pool.on('acquire', function (connection) {
-    console.log('Connection %d acquired', connection.threadId);
-});
 
-pool.on('release', function (connection) {
-    console.log('Connection %d released', connection.threadId);
-});
+// pool.on('acquire', function (connection) {
+//     console.log('Connection %d acquired', connection.threadId);
+// });
+
+// pool.on('release', function (connection) {
+//     console.log('Connection %d released', connection.threadId);
+// });
 
 
 // pool.connect((e) => {
