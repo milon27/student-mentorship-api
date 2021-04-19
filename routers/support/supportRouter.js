@@ -99,7 +99,7 @@ router.put('/update-ticket/:id', auth_cookie, SupportController.updateTicket)
 //search
 
 /**
- * @description 7.seach ticket by id or title
+ * @description 7.seach ticket by student id or title
  * @param {text,id} search text and AO id
  * @body {}
  * @endpoint http://localhost:2727/support/search/:text/:id

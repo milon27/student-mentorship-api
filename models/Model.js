@@ -2,8 +2,6 @@
  * @design by milon27
  */
 
-
-const mysql = require('mysql')
 require('dotenv').config();
 
 const pool = require('./config')
