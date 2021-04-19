@@ -9,38 +9,47 @@ class SupportModel extends Model {
     //@param ticket obj
     //@param ticket_chat obj
     //@param ticket_callback(err,{ticket_id,message_id})
+    //get connection from pool then use that to do the transction
     createTicket(ticket, ticket_chat, ticket_callback) {
-        this.db.beginTransaction(errr => {
-            if (errr) { ticket_callback(errr, null) }//end error
-            //insert into first table
-
-            this.db.query('INSERT INTO ?? SET ?', [DB_Define.TICKET_TABLE, ticket], (err, results) => {
-                if (err) {
-                    return this.db.rollback(function () {
-                        ticket_callback(err, null)
-                    });
-                }
-                let id = results.insertId
-                ticket_chat.ticket_id = id
-                this.db.query('INSERT INTO ?? SET ?', [DB_Define.TICKET_CHAT_TABLE, ticket_chat], (er, results) => {
-                    if (er) {
-                        return this.db.rollback(function () {
-                            ticket_callback(er, null)
+        this.db.getConnection((error, con) => {
+            con.beginTransaction(errr => {
+                if (errr) {
+                    con.release()
+                    ticket_callback(errr, null)
+                }//end error
+                //insert into first table
+                con.query('INSERT INTO ?? SET ?', [DB_Define.TICKET_TABLE, ticket], (err, results) => {
+                    if (err) {
+                        return con.rollback(function () {
+                            con.release()
+                            ticket_callback(err, null)
                         });
                     }
-                    this.db.commit((error) => {
-                        if (error) {
-                            ticket_callback(error, null)
-                        } else {
-                            const m_id = results.insertId
-                            const t_id = id
-                            //console.log("ticket id =", id);
-                            //console.log("first message id =", m_id);
-                            ticket_callback(null, { t_id, m_id })
+                    let id = results.insertId
+                    ticket_chat.ticket_id = id
+                    con.query('INSERT INTO ?? SET ?', [DB_Define.TICKET_CHAT_TABLE, ticket_chat], (er, results) => {
+                        if (er) {
+                            return con.rollback(function () {
+                                con.release()
+                                ticket_callback(er, null)
+                            });
                         }
-                    });
-                })//end in
-            })//end out
+                        con.commit((error) => {
+                            if (error) {
+                                con.release()
+                                ticket_callback(error, null)
+                            } else {
+                                con.release()
+                                const m_id = results.insertId
+                                const t_id = id
+                                //console.log("ticket id =", id);
+                                //console.log("first message id =", m_id);
+                                ticket_callback(null, { t_id, m_id })
+                            }
+                        });
+                    })//end in
+                })//end out
+            })
         })
     }
 
@@ -59,7 +68,8 @@ class SupportModel extends Model {
     searchTicket(text, id, callback) {
         //let sql = `SELECT * FROM ?? WHERE assigned_user_id=2 and ticket_title LIKE '%${text}%' OR student_id LIKE '%${text}%' OR reschedule_reason LIKE '%${text}%' OR ticket_dept LIKE '%${text}%' ORDER BY ${Define.CREATED_AT} DESC;`
 
-        let sql = `SELECT * FROM ?? WHERE ticket_state="pending" or assigned_user_id=? and student_id like '%${text}%' ORDER BY ${Define.CREATED_AT} DESC;`
+        //show only those are assigned to you also all pending.
+        let sql = `SELECT * FROM ?? WHERE (ticket_state="pending" and student_id like '%${text}%')  or (student_id like '%${text}%' and assigned_user_id=?)  ORDER BY ${Define.CREATED_AT} DESC;`
         this.db.query(sql, [DB_Define.TICKET_TABLE, id], callback)
     }
 
@@ -87,11 +97,7 @@ class SupportModel extends Model {
             sql = `SELECT COUNT(id) as total,ticket_state FROM ticket where ticket_state= "snoozed" and reschedule_date= ? GROUP BY ticket_state UNION SELECT COUNT(id) as total,ticket_state FROM ticket where ticket_state= "pending" GROUP BY ticket_state UNION SELECT COUNT(id) as total,ticket_state FROM ticket where ticket_state!= "pending" and ticket_state!= "snoozed" and assigned_user_id= ? GROUP BY ticket_state `
             this.db.query(sql, [d, id], callback)
         }
-
-
-
-
-    }
+    }//end ticketSummary
 }
 
 module.exports = SupportModel
