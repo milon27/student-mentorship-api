@@ -44,16 +44,10 @@ const AuthController = {
                     let response = new Response(true, err.message, err);
                     res.send(response);
                 } else {
-                    //get token and set into cookie
-                    const expireAt = Helper.getExpireDay(Define.TOKEN_EXPIRE_DAY)
-                    const token = Helper.getJWTtoken(email, expireAt)
+                    //get token 
+                    const token = Helper.getJWTtoken(email)
                     //send token in http cookie
-                    res.cookie(Define.TOKEN, token, {
-                        httpOnly: true,
-                        secure: Define.TOKEN_COOKIE_SECURE,//only for browser
-                        sameSite: 'lax',
-                        expires: new Date(expireAt)
-                    })
+                    res.cookie(Define.TOKEN, token, Define.SESSION_COOKIE_OPTION)
                     delete user.pass
                     user['id'] = results.insertId
                     user['token'] = token
@@ -93,15 +87,10 @@ const AuthController = {
 
                         //get token and set into cookie
 
-                        const expireAt = Helper.getExpireDay(Define.TOKEN_EXPIRE_DAY)
-                        const token = Helper.getJWTtoken(email, expireAt)
+                        //get token 
+                        const token = Helper.getJWTtoken(email)
                         //send token in http cookie
-                        res.cookie(Define.TOKEN, token, {
-                            httpOnly: true,
-                            secure: Define.TOKEN_COOKIE_SECURE,//only for browser
-                            sameSite: 'lax',
-                            expires: new Date(expireAt)
-                        })
+                        res.cookie(Define.TOKEN, token, Define.SESSION_COOKIE_OPTION)
 
                         delete user.pass
                         user['token'] = token
@@ -118,12 +107,7 @@ const AuthController = {
         }
     },//login
     logout: (req, res) => {
-        res.cookie(Define.TOKEN, "", {
-            httpOnly: true,
-            secure: Define.TOKEN_COOKIE_SECURE,
-            sameSite: 'lax',
-            expires: new Date(0)
-        })
+        res.cookie(Define.TOKEN, "", Define.LOGOUT_COOKIE_OPTION)
         res.status(200).json(new Response(false, "user logged out", {}))
     },//logout
     isLoggedIn: (req, res) => {
@@ -138,12 +122,7 @@ const AuthController = {
             res.send(true)// logged in
         } catch (e) {
             //remove the old/expire token
-            res.cookie("token", "", {
-                httpOnly: true,
-                secure: Define.TOKEN_COOKIE_SECURE,
-                sameSite: 'lax',
-                expires: new Date(0)
-            })
+            res.cookie("token", "", Define.LOGOUT_COOKIE_OPTION)
             res.send(false)//not logged in
         }
     },//isLoggedIn

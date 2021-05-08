@@ -19,7 +19,7 @@ class DbModel extends Model {
         const pending = Define.PENDING_TICKET
         const table_name = DB_Define.TICKET_TABLE
         let sql = `CREATE TABLE ${table_name}(
-            id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+            id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
             student_id varchar(200),
             ticket_title varchar(200),
             ticket_dept varchar(200),
@@ -37,7 +37,7 @@ class DbModel extends Model {
     create_ticket_chat_table(callback) {
         const table_name = DB_Define.TICKET_CHAT_TABLE
         let sql = `CREATE TABLE ${table_name}(
-            id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+            id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
             ticket_id varchar(200),
             message varchar(200),
             img_url varchar(200) DEFAULT "${Define.NOT_SET}",
@@ -53,7 +53,7 @@ class DbModel extends Model {
     create_user_table(callback) {
         const table_name = "users"
         let sql = `CREATE TABLE ${table_name}(
-            id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+            id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
             email varchar(200) UNIQUE,
             name varchar(200),
             pass varchar(200),
@@ -67,7 +67,7 @@ class DbModel extends Model {
     create_student_table(callback) {
         const table_name = DB_Define.STUDENT_TABLE
         let sql = `CREATE TABLE ${table_name}(
-            id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+            id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
             student_id varchar(200) UNIQUE,
             email varchar(200) UNIQUE,
             present_address varchar(200),
@@ -86,7 +86,7 @@ class DbModel extends Model {
     create_ao_table(callback) {
         const table_name = DB_Define.AO_TABLE
         let sql = `CREATE TABLE ${table_name}(
-            id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+            id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
             email varchar(200) UNIQUE,
             name varchar(200),
             password varchar(200),
@@ -102,7 +102,7 @@ class DbModel extends Model {
     create_todo_table(callback) {
         const table_name = DB_Define.TODO_TABLE
         let sql = `CREATE TABLE ${table_name}(
-            id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+            id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
             user_id INT,
             title varchar(200),
             is_done TINYINT,

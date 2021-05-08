@@ -5,12 +5,17 @@ const Define = require('./Define');
 
 const Helper = {
     //@get a date after 1 day @return miliseconds
-    getExpireDay: (day = 1) => {
-        return moment().add(day, Define.DAYS).valueOf();
+    getExpireDay: (day) => {
+        day = day || 1
+        return moment().add(parseInt(day), Define.DAYS).valueOf();
     },
     //@return token:String
     getJWTtoken: (email, expires) => {
-        return jwt.sign({ email: email }, process.env.ACCESS_SECRET, { expiresIn: expires });
+        if (expires) {
+            return jwt.sign({ email: email }, process.env.ACCESS_SECRET, { expiresIn: expires });
+        } else {
+            return jwt.sign({ email: email }, process.env.ACCESS_SECRET);
+        }
     },
     //@return email:String || throw Error
     verifyJWTtoken: (token) => {

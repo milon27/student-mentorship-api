@@ -1,9 +1,21 @@
+require('dotenv').config()
+
 const Define = {
     API_BASE_URL: "http://localhost:2727/",
     //user access token
     TOKEN: "token",
-    TOKEN_EXPIRE_DAY: 2,
-    TOKEN_COOKIE_SECURE: false,
+    SESSION_COOKIE_OPTION: {
+        httpOnly: true,
+        secure: false,//only for browser
+        sameSite: process.env.NODE_ENV !== "dev" ? 'lax' : 'none',//'lax' or 'none'
+        //maxAge: 1 * 24 * 60 * 60 * 1000//1 day in milis
+    },
+    LOGOUT_COOKIE_OPTION: {
+        httpOnly: true,
+        secure: false,//only for browser
+        sameSite: process.env.NODE_ENV !== "dev" ? 'lax' : 'none',//'lax' or 'none'
+        expires: new Date(0)
+    },
     //pagination
     FORMAT_SQL_DATE: "YYYY-MM-DD",
     CREATED_AT: "created_at",

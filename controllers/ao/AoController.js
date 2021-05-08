@@ -47,19 +47,10 @@ const AoController = {
                     let response = new Response(true, err.message, err);
                     res.send(response);
                 } else {
-                    //get token and set into cookie
-                    const expireAt = Helper.getExpireDay(Define.TOKEN_EXPIRE_DAY)
-                    const token = Helper.getJWTtoken(email, expireAt)
+                    //get token 
+                    const token = Helper.getJWTtoken(email)
                     //send token in http cookie
-                    res.cookie(Define.TOKEN, token, {
-                        httpOnly: true,
-                        secure: Define.TOKEN_COOKIE_SECURE,//only for browser
-                        sameSite: 'lax',
-                        expires: new Date(expireAt)
-                    })
-
-
-
+                    res.cookie(Define.TOKEN, token, Define.SESSION_COOKIE_OPTION)
                     delete ao.password
                     ao['id'] = results.insertId
                     ao['token'] = token
@@ -112,17 +103,10 @@ const AoController = {
                             throw new Error("Wrong email or password")
                         }
 
-                        //get token and set into cookie
-
-                        const expireAt = Helper.getExpireDay(Define.TOKEN_EXPIRE_DAY)
-                        const token = Helper.getJWTtoken(email, expireAt)
+                        //get token 
+                        const token = Helper.getJWTtoken(email)
                         //send token in http cookie
-                        res.cookie(Define.TOKEN, token, {
-                            httpOnly: true,
-                            secure: Define.TOKEN_COOKIE_SECURE,//only for browser
-                            sameSite: 'lax',
-                            expires: new Date(expireAt)
-                        })
+                        res.cookie(Define.TOKEN, token, Define.SESSION_COOKIE_OPTION)
 
                         delete ao.password
                         ao['token'] = token
@@ -152,12 +136,7 @@ const AoController = {
 
 
     logout: (req, res) => {
-        res.cookie(Define.TOKEN, "", {
-            httpOnly: true,
-            secure: Define.TOKEN_COOKIE_SECURE,
-            sameSite: 'lax',
-            expires: new Date(0)
-        })
+        res.cookie(Define.TOKEN, "", Define.LOGOUT_COOKIE_OPTION)
         res.status(200).json(new Response(false, "ao logged out", {}))
     },//ao logout
 
@@ -183,12 +162,7 @@ const AoController = {
             res.send(true)// logged in
         } catch (e) {
             //remove the old/expire token
-            res.cookie(Define.TOKEN, "", {
-                httpOnly: true,
-                secure: Define.TOKEN_COOKIE_SECURE,
-                sameSite: 'lax',
-                expires: new Date(0)
-            })
+            res.cookie(Define.TOKEN, "", Define.LOGOUT_COOKIE_OPTION)
             res.send(false)//not logged in
         }
     },//ao isLoggedIn  
