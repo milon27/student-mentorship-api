@@ -89,6 +89,19 @@ const DbController = {
         })
     },//student end
 
+    //department start
+    createDepartmentTable: (req, res) => {
+        new DbModel().create_department_table((err, results) => {
+            if (err) {
+                let response = new Response(true, err.message, err);
+                res.send(response);
+            } else {
+                let response = new Response(false, " department table Created Successfully", results);
+                res.status(200).send(response);
+            }
+        })
+    },//department end
+
     //create todo table
     createTodoTable: (req, res) => {
         new DbModel().create_todo_table((err, results) => {
