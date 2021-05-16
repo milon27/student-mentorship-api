@@ -45,6 +45,12 @@ router.get('/create-table/students', DbController.createStudentTable)
  * @example http://localhost:2727/db/create-table/ao
  */
 router.get('/create-table/ao', DbController.createAoTable)
+/**
+ * @description 6. create the faculty
+ * @endpoint http://localhost:2727/db/create-table/faculty
+ * @example http://localhost:2727/db/create-table/faculty
+ */
+router.get('/create-table/faculty', DbController.createFacultyTable)
 
 /**
  * @description 7. create Todo table

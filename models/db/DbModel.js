@@ -102,6 +102,7 @@ class DbModel extends Model {
             password varchar(200),
             phone varchar(200),
             photo_url varchar(200),
+            room_number varchar(200),
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         );`;
 

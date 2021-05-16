@@ -22,9 +22,9 @@
       */
      signUp: async (req, res) => {
          try {
-             const { name, phone, email, password, photo_url } = req.body
+             const { name, phone, email, password, photo_url , room_number} = req.body
              //validatioin
-             if (!Helper.validateField(name, phone, email, password, photo_url)) {
+             if (!Helper.validateField(name, phone, email, password, photo_url , room_number)) {
                  throw new Error("Enter all the required field!");
              }
  
@@ -39,6 +39,7 @@
                  email,
                  password,
                  photo_url,
+                 room_number,
                  password: hashpass
              }
  
