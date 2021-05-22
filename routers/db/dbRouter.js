@@ -48,14 +48,20 @@ router.get('/create-table/ao', DbController.createAoTable)
 
 
 /**
- * @description 6. create the department
+ * @description 7. create the department
  * @endpoint http://localhost:2727/db/create-table/department
  * @example http://localhost:2727/db/create-table/department
  */
 router.get('/create-table/department', DbController.createDepartmentTable)
 
 /**
- * @description 7. create Todo table
+ * @description 8. create the faculty
+ * @endpoint http://localhost:2727/db/create-table/faculty
+ * @example http://localhost:2727/db/create-table/faculty
+ */
+ router.get('/create-table/faculty', DbController.createFacultyTable)
+/**
+ * @description 9. create Todo table
  * @endpoint http://localhost:2727/db/create-table/todo
  * @example http://localhost:2727/db/create-table/todo
  */
