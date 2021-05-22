@@ -1,7 +1,6 @@
 const Response = require("../../models/Response")
 const TodoModel = require("../../models/todo/TodoModel")
 const DB_Define = require("../../utils/DB_Define")
-const { CREATED_AT } = require("../../utils/Define")
 const Define = require("../../utils/Define")
 const Helper = require("../../utils/Helper")
 
@@ -31,7 +30,7 @@ const TodoController = {
             new TodoModel().addData(DB_Define.TODO_TABLE, todo, (err, results) => {
                 if (err) {
                     let response = new Response(true, err.message, err);
-                    res.send(response);
+                    return res.send(response);
                 }
 
                 todo.id = results.insertId
@@ -51,7 +50,7 @@ const TodoController = {
      * @param {id} req.params
      */
     updateTodo: (req, res) => {
-        const { id } = req.params
+        const id = parseInt(req.params.id)
         const { feedback } = req.body
         //make the object
         const todo = {
@@ -63,7 +62,7 @@ const TodoController = {
             new TodoModel().updateData(DB_Define.TODO_TABLE, todo, (err, results) => {
                 if (err) {
                     let response = new Response(true, err.message, err);
-                    res.send(response);
+                    return res.send(response);
                 }
                 let response = new Response(false, "Todo Updated Succesfully", todo);
                 res.send(response);
@@ -81,13 +80,13 @@ const TodoController = {
      * @param {id} req.params
      */
     deleteTodo: (req, res) => {
-        const { id } = req.params
+        const id = parseInt(req.params.id)
 
         try {
             new TodoModel().deleteData(DB_Define.TODO_TABLE, id, (err, results) => {
                 if (err) {
                     let response = new Response(true, err.message, err);
-                    res.send(response);
+                    return res.send(response);
                 }
 
                 let response = new Response(false, "Todo Deleted Succesfully", id);
@@ -112,7 +111,7 @@ const TodoController = {
             new TodoModel().getAllByFilter(DB_Define.TODO_TABLE, "user_id", user_id, "is_done", is_done, Define.CREATED_AT, (err, results) => {
                 if (err) {
                     let response = new Response(true, err.message, err);
-                    res.send(response);
+                    return res.send(response);
                 }
 
                 if (results && results.length > 0) {
@@ -142,7 +141,7 @@ const TodoController = {
             new TodoModel().getAllUnDoneUptoNDays(DB_Define.TODO_TABLE, user_id, "dead_line", day, Define.CREATED_AT, (err, results) => {
                 if (err) {
                     let response = new Response(true, err.message, err);
-                    res.send(response);
+                    return res.send(response);
                 }
 
                 if (results && results.length > 0) {

@@ -111,12 +111,12 @@ class DbModel extends Model {
         this.db.query(sql, callback);
     }
 
-    
+
     //create faculty table 
     create_faculty_table(callback) {
         const table_name = DB_Define.FACULTY_TABLE
         let sql = `CREATE TABLE ${table_name}(
-            id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+            id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
             email varchar(200),
             name varchar(200),
             password varchar(200),
@@ -142,6 +142,20 @@ class DbModel extends Model {
             dead_line TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             INDEX (user_id)
+        );`;
+
+        this.db.query(sql, callback);
+    }
+
+    //create notice table
+    create_notice_table(callback) {
+        const table_name = DB_Define.NOTICE_TABLE
+        let sql = `CREATE TABLE ${table_name}(
+            id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+            publisher_id INT,
+            title varchar(200),
+            description TEXT,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         );`;
 
         this.db.query(sql, callback);

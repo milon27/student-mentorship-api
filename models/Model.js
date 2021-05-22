@@ -55,8 +55,8 @@ class Model {
         this.db.query(sql, id, callback);
     }
     //get all data from a table in decending order by a field
-    getAll = async (table, field, callback) => {
-        let sql = `SELECT * from ${table} ORDER BY ${field} DESC`;
+    getAll = async (table, order_field, callback) => {
+        let sql = `SELECT * from ${table} ORDER BY ${order_field} DESC`;
         this.db.query(sql, callback);
     }
 
@@ -64,6 +64,12 @@ class Model {
     getAllByField = async (table, field, value, order_field, callback) => {
         let sql = `SELECT * from ?? WHERE ?? =?  ORDER BY ?? DESC`;
         this.db.query(sql, [table, field, value, order_field], callback);
+    }
+
+    //get recent 
+    getRecent = async (table, num, order_field, callback) => {
+        let sql = `SELECT * from ${table} ORDER BY ${order_field} DESC LIMIT ?`;
+        this.db.query(sql, num, callback);
     }
 
     //get all data from a table in decending order by a field with pagination
@@ -75,21 +81,29 @@ class Model {
      * @param {order_field} order by field
      * @param {callback} (error,results)=>{}
      */
-    getPaginateList = (page, table, field, value, field2 = "", value2 = -1, order_field, callback) => {
+    getPaginateList = (page, table, field, value, field2, value2, order_field, callback) => {
+        //
+        field = field || ""
+        value = value || -1
+        field2 = field2 || ""
+        value2 = value2 || -1
 
         //implement pagination here later
         const page_size = Define.PAGINATE_PAGE_SIZE;
         let skip = (page - 1) * page_size;
 
         let sql = "";
-        if (value2 === -1 && field2 === "") {
+        if (value === -1 && field === "" && value2 === -1 && field2 === "") {
+            sql = `SELECT * from ${table} ORDER BY ?? DESC LIMIT ? OFFSET ? `;
+            this.db.query(sql, [order_field, page_size, skip], callback);
+        }
+        else if (value !== -1 && field !== "" && value2 === -1 && field2 === "") {
             sql = `SELECT * from ${table} WHERE ?? =? ORDER BY ?? DESC LIMIT ? OFFSET ? `;
             this.db.query(sql, [field, value, order_field, page_size, skip], callback);
         } else {
             sql = `SELECT * from ${table} WHERE ?? =? AND ??=? ORDER BY ?? DESC LIMIT ? OFFSET ? `;
             this.db.query(sql, [field, value, field2, value2, order_field, page_size, skip], callback);
         }
-
     }
 }
 

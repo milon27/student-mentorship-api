@@ -59,12 +59,19 @@ router.get('/create-table/department', DbController.createDepartmentTable)
  * @endpoint http://localhost:2727/db/create-table/faculty
  * @example http://localhost:2727/db/create-table/faculty
  */
- router.get('/create-table/faculty', DbController.createFacultyTable)
+router.get('/create-table/faculty', DbController.createFacultyTable)
 /**
  * @description 9. create Todo table
  * @endpoint http://localhost:2727/db/create-table/todo
  * @example http://localhost:2727/db/create-table/todo
  */
 router.get('/create-table/todo', DbController.createTodoTable)
+
+/**
+ * @description 10. create Notice table
+ * @endpoint http://localhost:2727/db/create-table/notice
+ * @example http://localhost:2727/db/create-table/notice
+ */
+router.get('/create-table/notice', DbController.createNoticeTable)
 
 module.exports = router

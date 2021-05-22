@@ -9,7 +9,9 @@ const DB_Define = {
     TICKET_TABLE: "ticket",
     TICKET_CHAT_TABLE: "ticket_chat",
     //todo
-    TODO_TABLE: "todos"
+    TODO_TABLE: "todos",
+    //notice
+    NOTICE_TABLE: "notice"
 
 }
 module.exports = DB_Define

@@ -102,7 +102,7 @@ const DbController = {
         })
     },//department end
 
-    
+
     //faculty start
     createFacultyTable: (req, res) => {
         new DbModel().create_faculty_table((err, results) => {
@@ -128,7 +128,18 @@ const DbController = {
             }
         })
     },//todo end
-
+    //create notice table
+    createNoticeTable: (req, res) => {
+        new DbModel().create_notice_table((err, results) => {
+            if (err) {
+                let response = new Response(true, err.message, err);
+                res.send(response);
+            } else {
+                let response = new Response(false, " Notice table Created Successfully", results);
+                res.status(200).send(response);
+            }
+        })
+    },//notice end
 
 
 

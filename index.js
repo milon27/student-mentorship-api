@@ -49,12 +49,14 @@ app.use('/ao', require('./routers/ao/aoRouter'));
 // @description use for  department  @author rijon1810
 app.use('/department', require('./routers/department/departmentRouter'));
 
-
 // @description use for  faculty  @author rijon1810
 app.use('/faculty', require('./routers/faculty/facultyRouter'));
 
 // @description use for todo  @author milon27
 app.use('/todo', require('./routers/todo/todoRouter'));
+
+// @description use for todo  @author milon27
+app.use('/notice', require('./routers/notice/noticeRouter'));
 
 /**
  * @init_server
