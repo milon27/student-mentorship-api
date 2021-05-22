@@ -46,6 +46,9 @@ app.use('/student', require('./routers/student/studentRouter'));
 // @description use for  ao  @author rijon1810
 app.use('/ao', require('./routers/ao/aoRouter'));
 
+// @description use for  department  @author rijon1810
+app.use('/department', require('./routers/department/departmentRouter'));
+
 // @description use for todo  @author milon27
 app.use('/todo', require('./routers/todo/todoRouter'));
 

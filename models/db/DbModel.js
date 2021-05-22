@@ -98,6 +98,19 @@ class DbModel extends Model {
         this.db.query(sql, callback);
     }
 
+    //create department table 
+    create_department_table(callback) {
+        const table_name = DB_Define.DEPARTMENT_TABLE
+        let sql = `CREATE TABLE ${table_name}(
+            id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+            email varchar(200) UNIQUE,
+            password varchar(200),
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        );`;
+
+        this.db.query(sql, callback);
+    }
+
     //create todo table
     create_todo_table(callback) {
         const table_name = DB_Define.TODO_TABLE
