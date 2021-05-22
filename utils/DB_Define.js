@@ -4,6 +4,7 @@ const DB_Define = {
     STUDENT_TABLE: "students",
     AO_TABLE: "ao",
     DEPARTMENT_TABLE: "department",
+    FACULTY_TABLE: "faculty",
     //support
     TICKET_TABLE: "ticket",
     TICKET_CHAT_TABLE: "ticket_chat",

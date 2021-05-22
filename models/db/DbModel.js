@@ -111,6 +111,25 @@ class DbModel extends Model {
         this.db.query(sql, callback);
     }
 
+    
+    //create faculty table 
+    create_faculty_table(callback) {
+        const table_name = DB_Define.FACULTY_TABLE
+        let sql = `CREATE TABLE ${table_name}(
+            id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+            email varchar(200),
+            name varchar(200),
+            password varchar(200),
+            phone varchar(200),
+            photo_url varchar(200),
+            room_number varchar(200),
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        );`;
+
+        this.db.query(sql, callback);
+    }
+
+
     //create todo table
     create_todo_table(callback) {
         const table_name = DB_Define.TODO_TABLE
