@@ -104,6 +104,9 @@ class DbModel extends Model {
         let sql = `CREATE TABLE ${table_name}(
             id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
             email varchar(200) UNIQUE,
+            name varchar(150) DEFAULT "${Define.NOT_SET}",
+            phone varchar(50) DEFAULT "${Define.NOT_SET}",
+            photo_url varchar(200) DEFAULT "${Define.NOT_SET}",
             password varchar(200),
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         );`;

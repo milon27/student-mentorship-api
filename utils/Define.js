@@ -6,14 +6,14 @@ const Define = {
     TOKEN: "token",
     SESSION_COOKIE_OPTION: {
         httpOnly: true,
-        secure: false,//only for browser
-        sameSite: process.env.NODE_ENV !== "dev" ? 'lax' : 'none',//'lax' or 'none'
+        secure: process.env.NODE_ENV !== "dev" ? true : false,//only for browser
+        sameSite: process.env.NODE_ENV !== "dev" ? 'lax' : 'lax',//'lax' or 'none'
         //maxAge: 1 * 24 * 60 * 60 * 1000//1 day in milis
     },
     LOGOUT_COOKIE_OPTION: {
         httpOnly: true,
-        secure: false,//only for browser
-        sameSite: process.env.NODE_ENV !== "dev" ? 'lax' : 'none',//'lax' or 'none'
+        secure: process.env.NODE_ENV !== "dev" ? true : false,//only for browser
+        sameSite: process.env.NODE_ENV !== "dev" ? 'lax' : 'lax',//'lax' or 'none'
         expires: new Date(0)
     },
     //pagination
