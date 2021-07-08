@@ -3,7 +3,6 @@
  */
 const express = require('express')
 const SupportController = require('../../controllers/support/SupportController')
-const auth_cookie = require('../middleware/authMiddleware')
 const router = express.Router()
 
 //make this router private here
@@ -16,7 +15,7 @@ const router = express.Router()
  * @body {student_id,ticket_title,assigned_user_id,first_message}=req.body
  * @endpoint http://localhost:2727/support/create-ticket
  */
-router.post('/create-ticket', auth_cookie, SupportController.create_ticket)
+router.post('/create-ticket', SupportController.create_ticket)
 
 /**
  * @private (not used in any client app)
@@ -25,7 +24,7 @@ router.post('/create-ticket', auth_cookie, SupportController.create_ticket)
  * @body {ticket_id, message, img_url(Optional), sender_id}=req.body
  * @endpoint http://localhost:2727/support/create-message
  */
-router.post('/create-message', auth_cookie, SupportController.create_message)
+router.post('/create-message', SupportController.create_message)
 
 /**
  * @private
@@ -36,7 +35,7 @@ router.post('/create-message', auth_cookie, SupportController.create_message)
  * @endpoint http://localhost:2727/support/get-one/:table/:field/:value/
  * @example for get single ticket =http://localhost:2727/support/get-one/ticket/id/7/
  */
-router.get('/get-one/:table/:field/:value/', auth_cookie, SupportController.getOneTicket)
+router.get('/get-one/:table/:field/:value/', SupportController.getOneTicket)
 
 
 /**
@@ -51,7 +50,7 @@ router.get('/get-one/:table/:field/:value/', auth_cookie, SupportController.getO
  * @example for student=http://localhost:2727/support/get/ticket/student_id/17303024/1
  * @example for all chat list=http://localhost:2727/support/get/ticket_chat/ticket_id/3/1
  */
-router.get('/get/:table/:field/:value/:page_no', auth_cookie, SupportController.getByField_P)
+router.get('/get/:table/:field/:value/:page_no', SupportController.getByField_P)
 
 
 
@@ -67,7 +66,7 @@ router.get('/get/:table/:field/:value/:page_no', auth_cookie, SupportController.
  * @example for student=http://localhost:2727/support/get/ticket/student_id/17303024/1
  * @example for all chat list=http://localhost:2727/support/get/ticket_chat/ticket_id/3/1
  */
-router.get('/get/:table/:field/:value/:field2/:value2/:page_no', auth_cookie, SupportController.getByField_P)
+router.get('/get/:table/:field/:value/:field2/:value2/:page_no', SupportController.getByField_P)
 
 
 /**
@@ -81,7 +80,7 @@ router.get('/get/:table/:field/:value/:field2/:value2/:page_no', auth_cookie, Su
  * @example for student=http://localhost:2727/support/get/ticket/student_id/17303024/
  * @example for all chat list=http://localhost:2727/support/get/ticket_chat/ticket_id/3/
  */
-router.get('/get/:table/:field/:value/', auth_cookie, SupportController.getByField_NP)
+router.get('/get/:table/:field/:value/', SupportController.getByField_NP)
 
 
 
@@ -93,7 +92,7 @@ router.get('/get/:table/:field/:value/', auth_cookie, SupportController.getByFie
  * @endpoint http://localhost:2727/support/update-ticket/:id
  * @example http://localhost:2727/support/update-ticket/3
  */
-router.put('/update-ticket/:id', auth_cookie, SupportController.updateTicket)
+router.put('/update-ticket/:id', SupportController.updateTicket)
 
 
 //search
@@ -105,7 +104,7 @@ router.put('/update-ticket/:id', auth_cookie, SupportController.updateTicket)
  * @endpoint http://localhost:2727/support/search/:text/:id
  * @example http://localhost:2727/support/search/17303024/2
  */
-router.get('/search/:text/:id', auth_cookie, SupportController.searchTicket)
+router.get('/search/:text/:id', SupportController.searchTicket)
 /**
  * @description 8.search text on a specific ticket chat
  * @param {text,ticket_id} search text,on a specific ticket chat
@@ -113,7 +112,7 @@ router.get('/search/:text/:id', auth_cookie, SupportController.searchTicket)
  * @endpoint http://localhost:2727/support/search-message/:ticket_id/:text
  * @example http://localhost:2727/support/search-message/2/first
  */
-router.get('/search-message/:ticket_id/:text', auth_cookie, SupportController.searchTicketChat)
+router.get('/search-message/:ticket_id/:text', SupportController.searchTicketChat)
 
 /**
  * @description get ticket summary (total ticket in each state)
@@ -123,6 +122,6 @@ router.get('/search-message/:ticket_id/:text', auth_cookie, SupportController.se
  * @example http://localhost:2727/support/summary/student/17303023
  * @example http://localhost:2727/support/summary/ao/2
  */
-router.get('/summary/:type/:id', auth_cookie, SupportController.getTicketSummary)
+router.get('/summary/:type/:id', SupportController.getTicketSummary)
 
 module.exports = router

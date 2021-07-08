@@ -44,6 +44,10 @@ class Model {
         let sql = `UPDATE ${table} SET ? WHERE id = ?`;
         this.db.query(sql, [obj, obj.id], callback);
     }
+    updateByField = (table, obj, field, value, callback) => {
+        let sql = `UPDATE ${table} SET ? WHERE ?? = ?`;
+        this.db.query(sql, [obj, field, value], callback);
+    }
     //delete a specific row on a table
     /**
     * @param {table name} table
@@ -54,10 +58,19 @@ class Model {
         let sql = `DELETE FROM ${table} WHERE id = ?`;
         this.db.query(sql, id, callback);
     }
+    deleteByField = (table, field, value, callback) => {
+        let sql = `DELETE FROM ${table} WHERE ?? = ?`;
+        this.db.query(sql, [field, value], callback);
+    }
     //get all data from a table in decending order by a field
     getAll = async (table, order_field, callback) => {
         let sql = `SELECT * from ${table} ORDER BY ${order_field} DESC`;
         this.db.query(sql, callback);
+    }
+
+    getRandom = async (table, limit, callback) => {
+        let sql = `SELECT * from ${table} ORDER BY RAND() LIMIT ? `;
+        this.db.query(sql, parseInt(limit), callback);
     }
 
     //get all data from a table in filter by a field and order by field

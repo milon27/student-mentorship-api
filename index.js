@@ -4,6 +4,8 @@
 const express = require('express');
 const cors = require('cors')
 const cookieparser = require('cookie-parser');
+const auth_cookie = require('./routers/middleware/authMiddleware')
+
 const onConnected = require('./socket/main');
 require('dotenv').config();
 const app = express();
@@ -38,7 +40,7 @@ app.use('/data', require('./routers/sample/dataRouter'));
 app.use('/db', require('./routers/db/dbRouter'))
 
 // @description use for support chat system @author milon27
-app.use('/support', require('./routers/support/supportRouter'))
+app.use('/support', auth_cookie, require('./routers/support/supportRouter'))
 
 // @description use for  student  @author rijon1810
 app.use('/student', require('./routers/student/studentRouter'));
@@ -53,10 +55,14 @@ app.use('/department', require('./routers/department/departmentRouter'));
 app.use('/faculty', require('./routers/faculty/facultyRouter'));
 
 // @description use for todo  @author milon27
-app.use('/todo', require('./routers/todo/todoRouter'));
+app.use('/todo', auth_cookie, require('./routers/todo/todoRouter'));
 
 // @description use for todo  @author milon27
-app.use('/notice', require('./routers/notice/noticeRouter'));
+app.use('/notice', auth_cookie, require('./routers/notice/noticeRouter'));
+
+// @description use for career  @author milon27
+app.use('/career', auth_cookie, require('./routers/career/careerRouter'));
+
 
 /**
  * @init_server
