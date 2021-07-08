@@ -11,7 +11,11 @@ const DB_Define = {
     //todo
     TODO_TABLE: "todos",
     //notice
-    NOTICE_TABLE: "notice"
+    NOTICE_TABLE: "notice",
+    //career
+    SKILL_TABLE: "skill",
+    SUB_SKILL_TABLE: "sub_skill",
+    QUESTION_TABLE: "question",
 
 }
 module.exports = DB_Define

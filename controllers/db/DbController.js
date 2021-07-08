@@ -140,7 +140,42 @@ const DbController = {
             }
         })
     },//notice end
-
+    //create skill tables
+    createSkillTable: (req, res) => {
+        new DbModel().create_skill_table((err, results) => {
+            if (err) {
+                let response = new Response(true, err.message, err);
+                res.send(response);
+            } else {
+                let response = new Response(false, " skill table Created Successfully", results);
+                res.status(200).send(response);
+            }
+        })
+    },//skill end
+    //create sub skill tables
+    createSubSkillTable: (req, res) => {
+        new DbModel().create_sub_skill_table((err, results) => {
+            if (err) {
+                let response = new Response(true, err.message, err);
+                res.send(response);
+            } else {
+                let response = new Response(false, "sub skill table Created Successfully", results);
+                res.status(200).send(response);
+            }
+        })
+    },//sub skill end
+    //create questions tables
+    createQuestionsTable: (req, res) => {
+        new DbModel().createQuestionsTable((err, results) => {
+            if (err) {
+                let response = new Response(true, err.message, err);
+                res.send(response);
+            } else {
+                let response = new Response(false, "questions table Created Successfully", results);
+                res.status(200).send(response);
+            }
+        })
+    },//questions end
 
 
 }

@@ -74,4 +74,25 @@ router.get('/create-table/todo', DbController.createTodoTable)
  */
 router.get('/create-table/notice', DbController.createNoticeTable)
 
+/**
+ * @description 11. create skill table
+ * @endpoint http://localhost:2727/db/create-table/skill
+ * @example http://localhost:2727/db/create-table/skill
+ */
+router.get('/create-table/skill', DbController.createSkillTable)
+
+/**
+ * @description 11. create sub-skill table
+ * @endpoint http://localhost:2727/db/create-table/sub-skill
+ * @example http://localhost:2727/db/create-table/sub-skill
+ */
+router.get('/create-table/sub-skill', DbController.createSubSkillTable)
+
+/**
+ * @description 11. create question table
+ * @endpoint http://localhost:2727/db/create-table/question
+ * @example http://localhost:2727/db/create-table/question
+ */
+router.get('/create-table/question', DbController.createQuestionsTable)
+
 module.exports = router

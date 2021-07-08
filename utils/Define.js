@@ -33,5 +33,9 @@ const Define = {
     COMPLETED_TICKET: "completed",
     SNOOZED_TICKET: "snoozed",
     PROCESSING_TICKET: "processing",
+    //type of skill
+    TYPE_SKILL_ADVANCED: "advanced",
+    TYPE_SKILL_INTERMIDIATE: "intermidiate",
+    TYPE_SKILL_BEGINNER: "beginner",
 }
 module.exports = Define

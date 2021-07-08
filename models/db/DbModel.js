@@ -164,6 +164,48 @@ class DbModel extends Model {
         this.db.query(sql, callback);
     }
 
+    ////create careers tables
+    create_skill_table(callback) {
+        const table_name = DB_Define.SKILL_TABLE
+        let sql = `CREATE TABLE ${table_name}(
+            id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+            title varchar(200),
+            intro_url varchar(200),
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        );`;
+        this.db.query(sql, callback);
+    }
+    //web html beginner youtube_link/blog_link
+    create_sub_skill_table(callback) {
+        const table_name = DB_Define.SUB_SKILL_TABLE
+        let sql = `CREATE TABLE ${table_name}(
+            id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+            skill_id INT,
+            title varchar(200),
+            type varchar(200),
+            task TEXT,
+            pass_mark DOUBLE DEFAULT "80",
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        );`;
+        this.db.query(sql, callback);
+    }
+    //web html beginner youtube_link/blog_link
+    createQuestionsTable(callback) {
+        const table_name = DB_Define.QUESTION_TABLE
+        let sql = `CREATE TABLE ${table_name}(
+            id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+            sub_skill_id INT,
+            title varchar(200),
+            op_1 varchar(200),
+            op_2 varchar(200),
+            op_3 varchar(200),
+            op_4 varchar(200),
+            ans varchar(200),
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        );`;
+        this.db.query(sql, callback);
+    }
+
 }
 
 module.exports = DbModel
