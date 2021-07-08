@@ -1,11 +1,6 @@
-//skill
-// router.use('/skill', require('./skillRouter'))
-// //sub skill
-// router.use('/sub-skill', require('./subSkillRouter'))
-// //question
-// router.use('/question', require('./questionRouter'))
-
-
+/**
+ * @author milon27
+ */
 const express = require('express')
 const Controller = require('../../controllers/Controller')
 const router = express.Router()
