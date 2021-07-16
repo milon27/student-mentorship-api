@@ -176,7 +176,18 @@ const DbController = {
             }
         })
     },//questions end
-
+    //create student skil list
+    createStudentSkillListTable: (req, res) => {
+        new DbModel().createStudentSkillListTable((err, results) => {
+            if (err) {
+                let response = new Response(true, err.message, err);
+                res.send(response);
+            } else {
+                let response = new Response(false, "StudentSkillList table Created Successfully", results);
+                res.status(200).send(response);
+            }
+        })
+    },//questions end
 
 }
 module.exports = DbController

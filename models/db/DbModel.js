@@ -138,7 +138,7 @@ class DbModel extends Model {
         const table_name = DB_Define.TODO_TABLE
         let sql = `CREATE TABLE ${table_name}(
             id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-            user_id INT,
+            user_id BIGINT,
             title varchar(200),
             is_done TINYINT,
             feedback varchar(200) DEFAULT "",
@@ -155,7 +155,7 @@ class DbModel extends Model {
         const table_name = DB_Define.NOTICE_TABLE
         let sql = `CREATE TABLE ${table_name}(
             id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-            publisher_id INT,
+            publisher_id BIGINT,
             title varchar(200),
             description TEXT,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -180,7 +180,7 @@ class DbModel extends Model {
         const table_name = DB_Define.SUB_SKILL_TABLE
         let sql = `CREATE TABLE ${table_name}(
             id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-            skill_id INT,
+            skill_id BIGINT,
             title varchar(200),
             type varchar(200),
             task TEXT,
@@ -194,7 +194,7 @@ class DbModel extends Model {
         const table_name = DB_Define.QUESTION_TABLE
         let sql = `CREATE TABLE ${table_name}(
             id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-            sub_skill_id INT,
+            sub_skill_id BIGINT,
             title varchar(200),
             op_1 varchar(200),
             op_2 varchar(200),
@@ -205,6 +205,19 @@ class DbModel extends Model {
         );`;
         this.db.query(sql, callback);
     }
+    //
+    createStudentSkillListTable(callback) {
+        const table_name = DB_Define.STUDENT_SKILL_LIST_TABLE
+        let sql = `CREATE TABLE ${table_name}(
+            id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+            skill_id BIGINT,
+            sub_skill_ids varchar(50),
+            stu_id varchar(50),
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        );`;
+        this.db.query(sql, callback);
+    }
+
 
 }
 

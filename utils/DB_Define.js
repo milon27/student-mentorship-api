@@ -16,6 +16,7 @@ const DB_Define = {
     SKILL_TABLE: "skill",
     SUB_SKILL_TABLE: "sub_skill",
     QUESTION_TABLE: "question",
+    STUDENT_SKILL_LIST_TABLE: "student_skill_list",
 
 }
 module.exports = DB_Define

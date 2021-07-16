@@ -95,4 +95,11 @@ router.get('/create-table/sub-skill', DbController.createSubSkillTable)
  */
 router.get('/create-table/question', DbController.createQuestionsTable)
 
+/**
+ * @description 12. create StudentSkillList table
+ * @endpoint http://localhost:2727/db/create-table/student_skill_list
+ * @example http://localhost:2727/db/create-table/student_skill_list
+ */
+router.get('/create-table/student_skill_list', DbController.createStudentSkillListTable)
+
 module.exports = router

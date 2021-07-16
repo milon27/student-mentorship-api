@@ -73,6 +73,11 @@ class Model {
         this.db.query(sql, parseInt(limit), callback);
     }
 
+    getRandomWithFilter = async (table, field, value, limit, callback) => {
+        let sql = `SELECT * from ${table} WHERE ??=? ORDER BY RAND() LIMIT ? `;
+        this.db.query(sql, [field, value, parseInt(limit)], callback);
+    }
+
     //get all data from a table in filter by a field and order by field
     getAllByField = async (table, field, value, order_field, callback) => {
         let sql = `SELECT * from ?? WHERE ?? =?  ORDER BY ?? DESC`;

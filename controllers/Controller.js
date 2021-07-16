@@ -87,7 +87,28 @@ const Controller = {
             res.send(response);
         }
     },
-
+    //get all by field
+    common_get_all_by_field: async (req, res) => {
+        const { table, field, value } = req.params
+        try {
+            new Model().getAllByField(table, field, value, Define.CREATED_AT, (err, results) => {
+                if (err) {
+                    let response = new Response(true, err.message, err);
+                    return res.send(response);
+                }
+                if (results && results.length > 0) {
+                    let response = new Response(false, "List get Successfully", results);
+                    res.status(200).send(response);
+                } else {
+                    let response = new Response(true, "List Not Found", []);
+                    res.status(200).send(response);
+                }
+            })
+        } catch (e) {
+            let response = new Response(true, e.message, e);
+            res.send(response);
+        }
+    },
     //get-all(get)
     common_get_all: async (req, res) => {
         const { table } = req.params
