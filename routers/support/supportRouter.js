@@ -121,7 +121,14 @@ router.get('/search-message/:ticket_id/:text', SupportController.searchTicketCha
  * @endpoint http://localhost:2727/support/summary/:type/:id
  * @example http://localhost:2727/support/summary/student/17303023
  * @example http://localhost:2727/support/summary/ao/2
+ * @example http://localhost:2727/support/summary/dept/-1
  */
 router.get('/summary/:type/:id', SupportController.getTicketSummary)
+
+/**
+ * @description get ticket assign summary
+ * @endpoint http://localhost:2727/support/ticket-assign-summery
+ */
+router.get('/ticket-assign-summery', SupportController.getTicketAssignSummery)
 
 module.exports = router

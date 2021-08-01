@@ -41,6 +41,16 @@ const Helper = {
         } else {
             return false;//invalid all field
         }
-    }//validateField
+    },//validateField
+
+    //arr, key
+    //console.log(groupBy(['one', 'two', 'three'], 'length'));
+    groupBy: function (arr, key) {
+        return arr.reduce(function (rv, x) {
+            (rv[x[key]] = rv[x[key]] || []).push(x);
+            return rv;
+        }, {});
+    },
+
 }
 module.exports = Helper

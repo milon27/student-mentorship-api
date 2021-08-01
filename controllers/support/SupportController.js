@@ -334,6 +334,9 @@ const SupportController = {
                             total_snoozed: 0,
                             total_completed: 0,
                         }
+
+                        console.log("results---", results);
+
                         results.forEach(i => {
                             if (i.ticket_state === Define.PENDING_TICKET) {
                                 summary.total_pending = i.total
@@ -357,7 +360,71 @@ const SupportController = {
             let response = new Response(true, e.message, e);
             res.send(response);
         }
-    }
+    },
+
+    getTicketAssignSummery: (req, res) => {
+        try {
+            new SupportModel().getTicketAssignSummery((err, results) => {
+                if (err) {
+                    let response = new Response(true, err.message, err);
+                    res.send(response);
+                } else {
+                    if (results.length > 0) {
+                        // let assignSummery = [
+                        //     {
+                        //         user_id: -1,
+                        //         total_pending: 0,
+                        //         total_processing: 0,
+                        //         total_snoozed: 0,
+                        //         total_completed: 0,
+                        //         user_name: ""
+                        //     }
+                        // ]
+                        //console.log("results---", results);
+                        let groupObj = Helper.groupBy(results, "assigned_user_id")
+                        const arr = Object.values(groupObj).map(itemArr => {
+                            if (itemArr[0].assigned_user_id === Define.NOT_SET) {
+                                return itemArr[0]
+                            }
+                            //not pending start here.
+                            let name = itemArr[0].name
+                            let id = parseInt(itemArr[0].assigned_user_id)
+                            //get type of ticket
+                            let total_processing = 0
+                            let total_completed = 0
+
+                            itemArr.forEach(item => {
+                                switch (item.type) {
+                                    case Define.PROCESSING_TICKET:
+                                        total_processing += item.total
+                                        break;
+                                    case Define.COMPLETED_TICKET:
+                                        total_completed += item.total
+                                        break;
+                                    case Define.SNOOZED_TICKET:
+                                        total_processing += item.total
+                                        break;
+                                    default:
+                                        break;
+                                }
+                            })
+
+                            return { id, name, total_processing, total_completed }
+                        })
+
+                        let response = new Response(false, "ticket Assign summary", arr);
+                        res.send(response);
+                    } else {
+                        let response = new Response(true, "not found", {});
+                        res.send(response);
+                    }
+                }
+            })
+        } catch (e) {
+            let response = new Response(true, e.message, e);
+            res.send(response);
+        }
+    },
 
 }
 

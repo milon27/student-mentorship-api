@@ -93,11 +93,52 @@ class SupportModel extends Model {
         if (type === "student") {
             sql = `SELECT COUNT(id) as total,ticket_state FROM ticket where student_id= ? GROUP BY ticket_state `
             this.db.query(sql, id, callback)
-        } else {
-            sql = `SELECT COUNT(id) as total,ticket_state FROM ticket where ticket_state= "snoozed" and reschedule_date= ? GROUP BY ticket_state UNION SELECT COUNT(id) as total,ticket_state FROM ticket where ticket_state= "pending" GROUP BY ticket_state UNION SELECT COUNT(id) as total,ticket_state FROM ticket where ticket_state!= "pending" and ticket_state!= "snoozed" and assigned_user_id= ? GROUP BY ticket_state `
+        }
+        else if (type === "dept") {
+            //here id= old date
+            //get all total ticket number from today to last (date)
+            sql = `SELECT COUNT(id) as total,ticket_state FROM ticket where created_at BETWEEN ? and ? GROUP BY ticket_state `
+            this.db.query(sql, [id, d], callback)
+        }
+        else {
+            //get total today's snoozed,pending,completed ticket number.
+            sql = `SELECT COUNT(id) as total,ticket_state FROM ticket where ticket_state= "snoozed" and reschedule_date= ? GROUP BY ticket_state UNION SELECT COUNT(id) as total,ticket_state FROM ticket where ticket_state= "pending" GROUP BY ticket_state
+            UNION SELECT COUNT(id) as total,ticket_state FROM ticket where ticket_state!= "pending" and ticket_state!= "snoozed" and assigned_user_id= ? GROUP BY ticket_state `
             this.db.query(sql, [d, id], callback)
         }
     }//end ticketSummary
+
+    //8. kon AO r kace koyta ticket assign kora ace r koy ta non asssign ace.
+    getTicketAssignSummery = (callback) => {
+        let sql = `
+SELECT COUNT(ticket.id) as total, ticket.ticket_state  as type,ticket.assigned_user_id,ao.name
+FROM ticket
+left join ao on ao.id=ticket.assigned_user_id WHERE ticket.ticket_state="processing" GROUP BY ticket.assigned_user_id
+
+union
+
+SELECT COUNT(ticket.id) as total,ticket.ticket_state  as type,ticket.assigned_user_id,ao.name
+FROM ticket
+left join ao on ao.id=ticket.assigned_user_id WHERE ticket.ticket_state="completed" GROUP BY ticket.assigned_user_id
+
+
+union
+
+SELECT COUNT(ticket.id) as total,ticket.ticket_state  as type,ticket.assigned_user_id,ao.name
+FROM ticket
+left join ao on ao.id=ticket.assigned_user_id WHERE ticket.ticket_state="snoozed" GROUP BY ticket.assigned_user_id
+
+
+union
+
+SELECT COUNT(ticket.id) as total,ticket.ticket_state  as type,ticket.assigned_user_id,"Pending"
+FROM ticket
+left join ao on ao.id=ticket.assigned_user_id WHERE ticket.ticket_state="pending" GROUP BY ticket.assigned_user_id
+
+`
+        this.db.query(sql, callback)
+    }
+
 }
 
 module.exports = SupportModel
