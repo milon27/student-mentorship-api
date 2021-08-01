@@ -335,7 +335,7 @@ const SupportController = {
                             total_completed: 0,
                         }
 
-                        console.log("results---", results);
+                        //console.log("results---", results);
 
                         results.forEach(i => {
                             if (i.ticket_state === Define.PENDING_TICKET) {
