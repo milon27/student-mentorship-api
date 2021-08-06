@@ -2,6 +2,7 @@
  * @design by milon27
  */
 const bcryptjs = require('bcryptjs')
+
 const StudentModel = require('../../models/student/StudentModel')
 const Response = require('../../models/Response')
 const DB_Define = require('../../utils/DB_Define')
@@ -170,6 +171,44 @@ const StudentController = {
             res.send(false)//not logged in
         }
     },//student isLoggedIn  
+
+    //account email verify
+    getVerifyLink: async (req, res) => {
+        try {
+            const { id, email } = req.params
+            //send email
+            const response = await Helper.sendEmail(email, `Click on the link to verify your email.URL: <a href='http://localhost:2727/student/verify/${id}'>Click To Verify.</a>`)
+            console.log(response);
+            res.send(response)
+        } catch (e) {
+            res.send(new Response(true, e.message, e))
+        }
+    },
+    //emailVerify
+    emailVerify: (req, res) => {
+        try {
+            const { id } = req.params
+            //update student info(verified.)
+            const stu = {
+                id: id,
+                is_verified: true
+            }
+
+            new StudentModel().updateData(DB_Define.STUDENT_TABLE, stu, (err, results) => {
+                if (err) {
+                    console.log(err);
+                    res.send("<h1>Your Account is Verification Failed.</h1>")
+                } else {
+                    //console.log(results);
+                    res.send("<h1>Your Account is Verified.</h1>")
+                }
+            })//end db op
+
+        } catch (e) {
+            console.log(e);
+            res.send("<h1>Your Account is Verification Failed.</h1>")
+        }
+    },
 
 }
 

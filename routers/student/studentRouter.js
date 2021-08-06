@@ -2,6 +2,7 @@
  * @design by milon27
  */
 const express = require('express')
+const Controller = require('../../controllers/Controller')
 const router = express.Router()
 const StudentController = require('../../controllers/student/StudentController')
 
@@ -43,5 +44,21 @@ router.get('/logout', StudentController.logout)
  * @example http://localhost:2727/student/is-loggedin
  */
 router.get('/is-loggedin', StudentController.isLoggedIn)
+
+//table, field, value
+//http://localhost:2727/student/get-one/:table/:field/:value
+//http://localhost:2727/student/get-one/student/stu_id/17303023
+router.get('/get-one/:table/:field/:value', Controller.common_get)
+
+
+/**
+ * @get
+ * @public
+ * @description 5. email verify
+ * @endpoint http://localhost:2727/student/get-link/:id/:email
+ * @endpoint http://localhost:2727/student/verify/:id
+ */
+router.get('/get-link/:id/:email', StudentController.getVerifyLink)
+router.get('/verify/:id', StudentController.emailVerify)
 
 module.exports = router

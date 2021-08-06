@@ -72,6 +72,7 @@ class DbModel extends Model {
             email varchar(200) UNIQUE,
             present_address varchar(200),
             name varchar(200),
+            is_verified TINYINT NOT NULL DEFAULT '0',
             parents_phone varchar(200),
             password varchar(200),
             phone varchar(200),

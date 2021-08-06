@@ -2,6 +2,8 @@ require('dotenv').config();
 const jwt = require('jsonwebtoken');
 const moment = require('moment');
 const Define = require('./Define');
+const nodemailer = require('nodemailer');
+const Response = require('../models/Response');
 
 const Helper = {
     //@get a date after 1 day @return miliseconds
@@ -42,6 +44,39 @@ const Helper = {
             return false;//invalid all field
         }
     },//validateField
+
+    //send email
+    sendEmail: (email, message) => {
+        const FROM = `${process.env.EMAIL_ID}`
+        const PASS = `${process.env.EMAIL_PASS}`
+        //https://myaccount.google.com/lesssecureapps
+        let transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                user: FROM,
+                pass: PASS
+            }
+        });
+
+        let mailOptions = {
+            from: FROM,
+            to: email,
+            subject: 'Email verificaion from Student Mentorship',
+            html: message
+        };
+        return new Promise((resolve, rej) => {
+            transporter.sendMail(mailOptions, function (error, info) {
+                if (error) {
+                    console.log("send mail: ", error);
+                    resolve(new Response(true, error.message, error))
+                } else {
+                    console.log("send mail: ", info);
+                    resolve(new Response(false, "email sent.", info.response))
+                }
+            });
+        })
+
+    },
 
     //arr, key
     //console.log(groupBy(['one', 'two', 'three'], 'length'));
