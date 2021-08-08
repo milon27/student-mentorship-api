@@ -3,6 +3,7 @@ const SupportModel = require("../../models/support/SupportModel")
 const DB_Define = require("../../utils/DB_Define")
 const Define = require("../../utils/Define")
 const Helper = require("../../utils/Helper")
+const moment = require('moment')
 
 const SupportController = {
     /**
@@ -362,9 +363,107 @@ const SupportController = {
         }
     },
 
+
+    getTicketSummeryList: (req, res) => {
+        try {
+
+            const { date } = req.params
+
+            new SupportModel().ticketSummary("dept", date, (err, results) => {
+                if (err) {
+                    let response = new Response(true, err.message, err);
+                    res.send(response);
+                } else {
+                    if (results.length > 0) {
+
+                        let summary = {
+                            total_pending: {
+                                num: 0,
+                                tickets: []
+                            },
+                            total_processing: {
+                                num: 0,
+                                tickets: []
+                            },
+                            total_snoozed: {
+                                num: 0,
+                                tickets: []
+                            },
+                            total_completed: {
+                                num: 0,
+                                tickets: []
+                            },
+                        }
+
+                        //console.log("results---", results);
+
+                        results.forEach(i => {
+                            if (i.ticket_state === Define.PENDING_TICKET) {
+                                summary.total_pending.num += i.total
+                            } if (i.ticket_state === Define.SNOOZED_TICKET) {
+                                summary.total_snoozed.num += i.total
+                            } if (i.ticket_state === Define.COMPLETED_TICKET) {
+                                summary.total_completed.num += i.total
+                            } if (i.ticket_state === Define.PROCESSING_TICKET) {
+                                summary.total_processing.num += i.total
+                            }
+                        });
+                        //get all tickets.
+                        let today = moment(new Date()).format(Define.FORMAT_SQL_DATE)
+                        new SupportModel().getAllByBetween(DB_Define.TICKET_TABLE, Define.CREATED_AT, date, today, Define.CREATED_AT, (err2, result2) => {
+                            if (err2) {
+                                let response2 = new Response(true, err2.message, err2);
+                                res.send(response2);
+                            } else {
+                                //console.log(result2);
+                                result2.forEach(itm => {
+
+                                    if (itm.ticket_state === Define.PENDING_TICKET) {
+                                        summary.total_pending.tickets = [...summary.total_pending.tickets, itm]
+                                    } if (itm.ticket_state === Define.SNOOZED_TICKET) {
+                                        summary.total_snoozed.tickets = [...summary.total_snoozed.tickets, itm]
+                                    } if (itm.ticket_state === Define.COMPLETED_TICKET) {
+                                        summary.total_completed.tickets = [...summary.total_completed.tickets, itm]
+                                    } if (itm.ticket_state === Define.PROCESSING_TICKET) {
+                                        summary.total_processing.tickets = [...summary.total_processing.tickets, itm]
+                                    }
+
+
+
+                                    // arr.forEach(ao_item => {
+                                    //     if (ao_item.id === parseInt(itm.assigned_user_id)) {
+                                    //         ao_item.tickets = [...ao_item.tickets, itm]
+                                    //     }
+                                    // })
+                                })
+
+                                let response = new Response(false, "ticket summary", summary);
+                                res.send(response);
+                            }
+                        })// 
+
+                        //end
+
+
+
+                    } else {
+                        let response = new Response(true, "not found", {});
+                        res.send(response);
+                    }
+                }
+            })
+        } catch (e) {
+            let response = new Response(true, e.message, e);
+            res.send(response);
+        }
+    },
+
+
     getTicketAssignSummery: (req, res) => {
         try {
-            new SupportModel().getTicketAssignSummery((err, results) => {
+            const { date } = req.params
+
+            new SupportModel().getTicketAssignSummery(date, (err, results) => {
                 if (err) {
                     let response = new Response(true, err.message, err);
                     res.send(response);
@@ -409,13 +508,32 @@ const SupportController = {
                                 }
                             })
 
-                            return { id, name, total_processing, total_completed }
+                            return { id, name, total_processing, total_completed, tickets: [] }
                         })
 
-                        let response = new Response(false, "ticket Assign summary", arr);
-                        res.send(response);
+                        //get all ticket order by ao
+
+                        let today = moment(new Date()).format(Define.FORMAT_SQL_DATE)
+                        new SupportModel().getAllByBetween(DB_Define.TICKET_TABLE, Define.CREATED_AT, date, today, "assigned_user_id", (err2, result2) => {
+                            if (err2) {
+                                let response2 = new Response(true, err2.message, err2);
+                                res.send(response2);
+                            } else {
+                                // console.log(result2);
+                                result2.forEach(itm => {
+                                    arr.forEach(ao_item => {
+                                        if (ao_item.id === parseInt(itm.assigned_user_id)) {
+                                            ao_item.tickets = [...ao_item.tickets, itm]
+                                        }
+                                    })
+                                })
+
+                                let response = new Response(false, "ticket Assign summary", arr);
+                                res.send(response);
+                            }
+                        })//        
                     } else {
-                        let response = new Response(true, "not found", {});
+                        let response = new Response(true, "not found", []);
                         res.send(response);
                     }
                 }

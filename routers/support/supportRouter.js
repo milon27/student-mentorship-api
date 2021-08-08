@@ -121,14 +121,24 @@ router.get('/search-message/:ticket_id/:text', SupportController.searchTicketCha
  * @endpoint http://localhost:2727/support/summary/:type/:id
  * @example http://localhost:2727/support/summary/student/17303023
  * @example http://localhost:2727/support/summary/ao/2
- * @example http://localhost:2727/support/summary/dept/-1
+ * @example http://localhost:2727/support/summary/dept/2021-02-24(date)
  */
 router.get('/summary/:type/:id', SupportController.getTicketSummary)
 
+
+
 /**
- * @description get ticket assign summary
- * @endpoint http://localhost:2727/support/ticket-assign-summery
+ * used as report generation
+ * @description get ticket assign summary (start date as param)
+ * @endpoint http://localhost:2727/support/ticket-summery-report/:date
  */
-router.get('/ticket-assign-summery', SupportController.getTicketAssignSummery)
+router.get('/ticket-summery-report/:date', SupportController.getTicketSummeryList)
+
+/**
+ * used as report generation
+ * @description get ticket assign summary (start date as param)
+ * @endpoint http://localhost:2727/support/ticket-assign-summery/:date
+ */
+router.get('/ticket-assign-summery/:date', SupportController.getTicketAssignSummery)
 
 module.exports = router

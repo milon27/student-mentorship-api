@@ -109,34 +109,42 @@ class SupportModel extends Model {
     }//end ticketSummary
 
     //8. kon AO r kace koyta ticket assign kora ace r koy ta non asssign ace.
-    getTicketAssignSummery = (callback) => {
+    getTicketAssignSummery = (dateStart, callback) => {
+        //upto toady..
+
         let sql = `
-SELECT COUNT(ticket.id) as total, ticket.ticket_state  as type,ticket.assigned_user_id,ao.name
-FROM ticket
-left join ao on ao.id=ticket.assigned_user_id WHERE ticket.ticket_state="processing" GROUP BY ticket.assigned_user_id
+        SELECT COUNT(ticket.id) as total, ticket.ticket_state  as type,ticket.assigned_user_id,ao.name
+        FROM ticket
+        left join ao on ao.id=ticket.assigned_user_id WHERE ticket.created_at BETWEEN '${dateStart}' and now() and ticket.ticket_state="processing" GROUP BY ticket.assigned_user_id
 
-union
+        union
 
-SELECT COUNT(ticket.id) as total,ticket.ticket_state  as type,ticket.assigned_user_id,ao.name
-FROM ticket
-left join ao on ao.id=ticket.assigned_user_id WHERE ticket.ticket_state="completed" GROUP BY ticket.assigned_user_id
-
-
-union
-
-SELECT COUNT(ticket.id) as total,ticket.ticket_state  as type,ticket.assigned_user_id,ao.name
-FROM ticket
-left join ao on ao.id=ticket.assigned_user_id WHERE ticket.ticket_state="snoozed" GROUP BY ticket.assigned_user_id
+        SELECT COUNT(ticket.id) as total,ticket.ticket_state  as type,ticket.assigned_user_id,ao.name
+        FROM ticket
+        left join ao on ao.id=ticket.assigned_user_id WHERE ticket.created_at BETWEEN '${dateStart}' and now() and ticket.ticket_state="completed" GROUP BY ticket.assigned_user_id
 
 
-union
+        union
 
-SELECT COUNT(ticket.id) as total,ticket.ticket_state  as type,ticket.assigned_user_id,"Pending"
-FROM ticket
-left join ao on ao.id=ticket.assigned_user_id WHERE ticket.ticket_state="pending" GROUP BY ticket.assigned_user_id
+        SELECT COUNT(ticket.id) as total,ticket.ticket_state  as type,ticket.assigned_user_id,ao.name
+        FROM ticket
+        left join ao on ao.id=ticket.assigned_user_id WHERE ticket.created_at BETWEEN '${dateStart}' and now() and ticket.ticket_state="snoozed" GROUP BY ticket.assigned_user_id
 
-`
+
+        union
+
+        SELECT COUNT(ticket.id) as total,ticket.ticket_state  as type,ticket.assigned_user_id,"Pending"
+        FROM ticket
+        left join ao on ao.id=ticket.assigned_user_id WHERE ticket.created_at BETWEEN '${dateStart}' and now() and ticket.ticket_state="pending" GROUP BY ticket.assigned_user_id
+
+        `
+
         this.db.query(sql, callback)
+    }
+
+    getAllTicketByBetween = async (table, field, value1, value2, order_field, callback) => {
+        let sql = `SELECT * from ?? WHERE ?? between ? and ?  ORDER BY ?? DESC`;
+        this.db.query(sql, [table, field, value1, value2, order_field], callback);
     }
 
 }
