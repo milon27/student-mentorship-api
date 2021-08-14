@@ -17,7 +17,7 @@ const Define = {
         expires: new Date(0)
     },
     //pagination
-    FORMAT_SQL_DATE: "YYYY-MM-DD",
+    FORMAT_SQL_DATE: "YYYY-MM-DD ",
     CREATED_AT: "created_at",
     PAGINATE_PAGE_SIZE: 10,
     //time

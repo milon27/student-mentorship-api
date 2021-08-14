@@ -409,8 +409,7 @@ const SupportController = {
                             }
                         });
                         //get all tickets.
-                        let today = moment(new Date()).format(Define.FORMAT_SQL_DATE)
-                        new SupportModel().getAllByBetween(DB_Define.TICKET_TABLE, Define.CREATED_AT, date, today, Define.CREATED_AT, (err2, result2) => {
+                        new SupportModel().getAllByBetweenToday(DB_Define.TICKET_TABLE, Define.CREATED_AT, date, Define.CREATED_AT, (err2, result2) => {
                             if (err2) {
                                 let response2 = new Response(true, err2.message, err2);
                                 res.send(response2);
@@ -513,8 +512,7 @@ const SupportController = {
 
                         //get all ticket order by ao
 
-                        let today = moment(new Date()).format(Define.FORMAT_SQL_DATE)
-                        new SupportModel().getAllByBetween(DB_Define.TICKET_TABLE, Define.CREATED_AT, date, today, "assigned_user_id", (err2, result2) => {
+                        new SupportModel().getAllByBetweenToday(DB_Define.TICKET_TABLE, Define.CREATED_AT, date, "assigned_user_id", (err2, result2) => {
                             if (err2) {
                                 let response2 = new Response(true, err2.message, err2);
                                 res.send(response2);

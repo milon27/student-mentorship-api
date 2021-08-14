@@ -89,6 +89,11 @@ class Model {
         this.db.query(sql, [table, field, value1, value2, order_field], callback);
     }
 
+    getAllByBetweenToday = async (table, field, value1, order_field, callback) => {
+        let sql = `SELECT * from ?? WHERE ?? between ? and now()  ORDER BY ?? DESC`;
+        this.db.query(sql, [table, field, value1, order_field], callback);
+    }
+
     //get recent 
     getRecent = async (table, num, order_field, callback) => {
         let sql = `SELECT * from ${table} ORDER BY ${order_field} DESC LIMIT ?`;

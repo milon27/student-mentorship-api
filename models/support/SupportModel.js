@@ -87,8 +87,6 @@ class SupportModel extends Model {
 
         //let sql = `SELECT COUNT(id) as total,ticket_state FROM ticket where ticket_state= "pending" GROUP BY ticket_state UNION SELECT COUNT(id) as total,ticket_state FROM ticket where ticket_state!= "pending" and assigned_user_id= ? GROUP BY ticket_state`
 
-        const date = new Date()
-        let d = moment(date).format(Define.FORMAT_SQL_DATE)
         let sql = ""
         if (type === "student") {
             sql = `SELECT COUNT(id) as total,ticket_state FROM ticket where student_id= ? GROUP BY ticket_state `
@@ -97,14 +95,14 @@ class SupportModel extends Model {
         else if (type === "dept") {
             //here id= old date
             //get all total ticket number from today to last (date)
-            sql = `SELECT COUNT(id) as total,ticket_state FROM ticket where created_at BETWEEN ? and ? GROUP BY ticket_state `
-            this.db.query(sql, [id, d], callback)
+            sql = `SELECT COUNT(id) as total,ticket_state FROM ticket where created_at BETWEEN ? and now() GROUP BY ticket_state `
+            this.db.query(sql, [id], callback)
         }
         else {
             //get total today's snoozed,pending,completed ticket number.
-            sql = `SELECT COUNT(id) as total,ticket_state FROM ticket where ticket_state= "snoozed" and reschedule_date= ? GROUP BY ticket_state UNION SELECT COUNT(id) as total,ticket_state FROM ticket where ticket_state= "pending" GROUP BY ticket_state
+            sql = `SELECT COUNT(id) as total,ticket_state FROM ticket where ticket_state= "snoozed" and reschedule_date= now() GROUP BY ticket_state UNION SELECT COUNT(id) as total,ticket_state FROM ticket where ticket_state= "pending" GROUP BY ticket_state
             UNION SELECT COUNT(id) as total,ticket_state FROM ticket where ticket_state!= "pending" and ticket_state!= "snoozed" and assigned_user_id= ? GROUP BY ticket_state `
-            this.db.query(sql, [d, id], callback)
+            this.db.query(sql, [id], callback)
         }
     }//end ticketSummary
 
