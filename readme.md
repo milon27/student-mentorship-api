@@ -50,6 +50,12 @@ ___
  * .env  
 
 
+>> 📢📢 Frontend Repositories
+___
+- [Student Panel](https://github.com/milon27/student-mentorship-react-student)
+- [A.O. Panel](https://github.com/milon27/student-mentorship-react-ao)
+- [Dept. Panel](https://github.com/milon27/student-mentorship-react-dept)
+
 >> developed routes
 ___
  * CRUD Operations (dataRouter.js)
